@@ -1,0 +1,4 @@
+No:1; Name:Double; Amenities:King-size bed, Air conditioning, Flat-screen TV, Minibar, City view, Free Wi-Fi; Maximum Occupancy:5;
+No:3; Name:Single; Amenities:Single bed, Desk, Air conditioning, Flat-screen TV, Free Wi-Fi, Bathroom with shower; Maximum Occupancy:1;
+No:5; Name:Suite; Amenities:Private check-in, Personal butler, Premium minibar, Smart TV, Jacuzzi, Terrace with view, Complimentary breakfast, Soundproofing; Maximum Occupancy:2;
+No:8; Name:Delux; Amenities:Two floors, Spiral staircase, Living room, Kitchenette, Two bathrooms, Balcony with view, Flat-screen TVs, Free Wi-Fi; Maximum Occupancy:3;
