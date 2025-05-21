@@ -56,8 +56,8 @@ public class RoomImpl implements Room {
     }
 
     @Override
-    public void setStatus(String tStatus) {
-        status = Status.parseStatus(tStatus);
+    public void setStatus(Status tStatus) {
+        status = tStatus;
     }
 
     @Override

@@ -8,7 +8,7 @@ public interface Room extends FileFormatter {
     int getRoomTypeId();
     double getPricePerNight();
     double getCancellationFee();
-    void setStatus(String status);
+    void setStatus(Status status);
     void setRoomTypeId(int roomTypeId);
     void setPricePerNight(double pricePerNight);
     void setCancellationFee(double cancellationFee);

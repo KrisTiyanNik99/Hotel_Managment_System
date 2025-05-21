@@ -109,7 +109,14 @@ public abstract class RepoService<T extends FileFormatter> implements ObjectProv
     }
 
     private void loadFromFile() {
-        try (InputStream repository = getClass().getClassLoader().getResourceAsStream(repositoryFileName)) {
+        //InputStream repository = getClass().getClassLoader().getResourceAsStream(repositoryFileName)
+        File repository = new File(Configurations.FILE_ROOT_PATH + repositoryFileName);
+        if (!repository.exists()) {
+            System.out.println("File does not exist: " + repository.getAbsolutePath());
+            return;
+        }
+
+        try {
             Scanner reader = new Scanner(Objects.requireNonNull(repository));
             while (reader.hasNextLine()) {
                 /*
@@ -123,10 +130,9 @@ public abstract class RepoService<T extends FileFormatter> implements ObjectProv
                 mapDataFromFileLine(entityMap, sourceObjData);
             }
 
-        } catch (Exception ignored) {
+        } catch (Exception е) {
             // Игнорираме за момента грешката защото в противен случай протграмата ще спре!
-            System.out.println("Cannot reach the file in this path: " + Configurations.FILE_ROOT_PATH
-                    + " with this name: " + repositoryFileName);
+            System.out.println(е.getMessage());
         }
     }
 

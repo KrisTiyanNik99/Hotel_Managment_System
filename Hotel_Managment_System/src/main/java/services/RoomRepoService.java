@@ -21,7 +21,7 @@ public class RoomRepoService extends RepoService<Room> {
          */
         Room copy = super.findById(id);
 
-        return copy == null ? null : new RoomImpl(copy.getRoomTypeId(),
+        return copy == null ? null : new RoomImpl(copy.getRoomNumber(),
                 copy.getRoomTypeId(),
                 copy.getPricePerNight(),
                 copy.getCancellationFee(),
@@ -32,8 +32,8 @@ public class RoomRepoService extends RepoService<Room> {
     public Room getObjectFromData(String[] data) {
         int roomNumber = Integer.parseInt(data[0].split(REGEX_EXPRESSION)[VALUE_POSITION]);
         int roomTypeId = Integer.parseInt(data[1].split(REGEX_EXPRESSION)[VALUE_POSITION]);
-        double pricePerNight = Double.parseDouble(data[2].split(REGEX_EXPRESSION)[VALUE_POSITION]);
-        double cancellationFee = Double.parseDouble(data[3].split(REGEX_EXPRESSION)[VALUE_POSITION]);
+        double pricePerNight = Double.parseDouble(data[2].split(REGEX_EXPRESSION)[VALUE_POSITION].replace(",", "."));
+        double cancellationFee = Double.parseDouble(data[3].split(REGEX_EXPRESSION)[VALUE_POSITION].replace(",", "."));
         Status status = Status.parseStatus(data[4].split(REGEX_EXPRESSION)[VALUE_POSITION]);
 
         setNewId(roomNumber);
