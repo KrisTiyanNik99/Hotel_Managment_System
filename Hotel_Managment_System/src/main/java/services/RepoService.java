@@ -21,6 +21,7 @@ public abstract class RepoService<T extends FileFormatter> implements ObjectProv
 
     private final Map<Integer, T> entityMap;
     private String repositoryFileName;
+    private int newId;
 
     public RepoService(String repositoryFileName) {
         setRepositoryFileName(repositoryFileName);
@@ -60,6 +61,15 @@ public abstract class RepoService<T extends FileFormatter> implements ObjectProv
     }
     // Тук приключва имплементационната секция с обикновенните CRUD операции--------------------------------------------
 
+
+    public void setNewId(int newId) {
+        this.newId = newId;
+    }
+
+    public int getNewId() {
+        setNewId(newId + 1);
+        return newId;
+    }
 
     protected Map<Integer, T> getEntityMap() {
         return entityMap;

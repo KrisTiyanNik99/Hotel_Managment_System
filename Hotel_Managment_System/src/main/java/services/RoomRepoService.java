@@ -36,6 +36,8 @@ public class RoomRepoService extends RepoService<Room> {
         double cancellationFee = Double.parseDouble(data[3].split(REGEX_EXPRESSION)[VALUE_POSITION]);
         Status status = Status.parseStatus(data[4].split(REGEX_EXPRESSION)[VALUE_POSITION]);
 
+        setNewId(roomNumber);
+
         return new RoomImpl(roomNumber, roomTypeId, pricePerNight, cancellationFee, status);
     }
 
@@ -60,6 +62,7 @@ public class RoomRepoService extends RepoService<Room> {
 
         getEntityMap().put(room.getRoomNumber(), room);
         persistToFile();
+        setNewId(room.getRoomNumber());
         System.out.printf("You successfully add new Room into file!%n");
     }
 

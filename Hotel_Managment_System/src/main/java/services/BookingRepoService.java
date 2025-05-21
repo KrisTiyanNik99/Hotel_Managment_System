@@ -33,6 +33,8 @@ public class BookingRepoService extends RepoService<Reservation> {
         LocalDate arrivalData = LocalDate.parse(data[3].split(REGEX_EXPRESSION)[VALUE_POSITION], formatter);
         LocalDate departureDate = LocalDate.parse(data[4].split(REGEX_EXPRESSION)[VALUE_POSITION], formatter);
 
+        setNewId(id);
+
         return new Reservation(id, userId, roomId, arrivalData, departureDate);
     }
 
@@ -58,6 +60,7 @@ public class BookingRepoService extends RepoService<Reservation> {
 
         getEntityMap().put(reservation.getId(), reservation);
         persistToFile();
+        setNewId(reservation.getId());
         System.out.println("New reservation is added!");
     }
 

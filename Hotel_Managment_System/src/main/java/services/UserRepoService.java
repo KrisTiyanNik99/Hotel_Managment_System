@@ -26,6 +26,8 @@ public class UserRepoService extends RepoService<User> {
         String username = data[1].split(REGEX_EXPRESSION)[VALUE_POSITION];
         String password = data[2].split(REGEX_EXPRESSION)[VALUE_POSITION];
 
+        setNewId(id);
+
         return new UserImpl(id, username, password);
     }
 
@@ -50,6 +52,7 @@ public class UserRepoService extends RepoService<User> {
 
         getEntityMap().put(user.getUserId(), user);
         persistToFile();
+        setNewId(user.getUserId());
         System.out.println("Successfully add new user in file!");
     }
 

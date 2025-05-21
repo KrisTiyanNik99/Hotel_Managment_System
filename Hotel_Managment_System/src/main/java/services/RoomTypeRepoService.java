@@ -28,6 +28,8 @@ public class RoomTypeRepoService extends RepoService<RoomType> {
         String amenities = data[2].split(REGEX_EXPRESSION)[VALUE_POSITION];
         int maxOccupancy = Integer.parseInt(data[3].split(REGEX_EXPRESSION)[VALUE_POSITION]);
 
+        setNewId(id);
+
         return new RoomTypeImpl(id, name, amenities, maxOccupancy);
     }
 
@@ -52,6 +54,7 @@ public class RoomTypeRepoService extends RepoService<RoomType> {
 
         getEntityMap().put(roomType.getId(), roomType);
         persistToFile();
+        setNewId(roomType.getId());
         System.out.printf("You successfully add new Room type into file!%n");
     }
 
