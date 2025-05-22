@@ -1,44 +1,50 @@
 import config.Configurations;
-import func.FileFormatter;
+import managers.BookingManager;
 import managers.RoomManager;
+import models.Reservation;
 import models.enums.Status;
 import models.room.Room;
 import models.room.RoomType;
+import services.BookingRepoService;
 import services.RepoService;
 import services.RoomRepoService;
 import services.RoomTypeRepoService;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         RepoService<Room> r = new RoomRepoService(Configurations.ROOM_FILE_NAME);
         RepoService<RoomType> rt = new RoomTypeRepoService(Configurations.ROOM_TYPE_FILE_NAME);
+        RepoService<Reservation> re = new BookingRepoService(Configurations.RESERVATION_FILE_NAME);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         RoomManager rm = new RoomManager(r, rt);
+        BookingManager bm = new BookingManager(re, rm);
 
+        List<Reservation> rs = bm.getAllUserBookingHistory(3);
+        rs.forEach(System.out::println);
+    }
+
+    private static void dosmth3(RepoService<Room> r, RepoService<RoomType> rt) {
+//        RoomManager rm = new RoomManager(r, rt);
+//
 //        RoomType rto = rm.createNewRoomType("Test", "test1, test2, test3", 4);
-//        List<RoomType> rtl = rm.getAllRoomTypesByName("test");
-//        rtl.forEach(FileFormatter::toFileFormat);
+////        List<RoomType> rtl = rm.getAllRoomTypesByName("test");
+////        rtl.forEach(FileFormatter::toFileFormat);
 //        rm.createNewRoom(rto, 999.99, 111.11);
-//        rto = rm.getRoomTypeById(5);
-//        Room nr = rm.createNewRoom(rto, 777.77, 333.33);
-//        nr.setStatus(Status.BOOKED);
-//        rm.updateRoom(nr);
-
-        Room or1 = rm.getRoomById(1);
-        or1.setStatus(Status.BOOKED);
-        Room or2 = rm.getRoomById(3);
-        or2.setStatus(Status.BOOKED);
-        Room or3 = rm.getRoomById(4);
-        or3.setStatus(Status.BOOKED);
-        Room or4 = rm.getRoomById(5);
-        or4.setStatus(Status.BOOKED);
-
-        rm.updateRoom(or1);
-        rm.updateRoom(or2);
-        rm.updateRoom(or3);
-        rm.updateRoom(or4);
+////        rto = rm.getRoomTypeById(5);
+////        Room nr = rm.createNewRoom(rto, 777.77, 333.33);
+////        nr.setStatus(Status.BOOKED);
+////        rm.updateRoom(nr);
+//
+//        Room or1 = rm.getRoomById(1);
+//        or1.setStatus(Status.AVAILABLE);
+//
+//        rm.updateRoom(or1);
     }
 
     private static void dosmth2() {

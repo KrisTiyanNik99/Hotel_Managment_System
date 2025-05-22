@@ -14,22 +14,24 @@ public final class Reservation implements FileFormatter {
     private final LocalDate departureDate;
     private boolean isCanceled = false;
 
-    public Reservation(int id, int userId, int roomId, LocalDate arrivalData, LocalDate departureDate) {
+    public Reservation(int id, int userId, int roomId, LocalDate arrivalData, LocalDate departureDate, boolean isCanceled) {
         this.id = id;
         this.userId = userId;
         this.roomId = roomId;
         this.arrivalData = isValidDate(arrivalData);
         this.departureDate = isValidDate(departureDate);
+        this.isCanceled = isCanceled;
     }
 
     @Override
     public String toFileFormat() {
-        return String.format("No:%d; UserID:%d; RoomID:%d; Arrival Data:%s; Departure Data:%s;%n",
+        return String.format("No:%d; UserID:%d; RoomID:%d; Arrival Data:%s; Departure Data:%s; Is canceled:%s;%n",
                 id,
                 userId,
                 roomId,
                 formattedData(arrivalData),
-                formattedData(departureDate));
+                formattedData(departureDate),
+                isCanceled);
     }
 
     public int getId() {

@@ -20,14 +20,14 @@ public class RoomManager {
 
     public RoomType createNewRoomType(String name, String amenities, int maximumOccupancy) {
         // При създаването на нова стая правил автоматичен брояч, наподобяващ уникалните ключове в sql
-        int roomTypeId = roomTypeRepository.getNewId();
+        int roomTypeId = roomTypeRepository.generateNextId();
+        roomTypeRepository.createValue(
+                new RoomTypeImpl(roomTypeId,
+                        name,
+                        amenities,
+                        maximumOccupancy));
 
-        RoomType rt = new RoomTypeImpl(roomTypeId,
-                name,
-                amenities,
-                maximumOccupancy);
-        roomTypeRepository.createValue(rt);
-        return rt;
+        return getRoomTypeById(roomTypeId);
     }
 
     public void updateRoomType(RoomType roomType) {
@@ -46,7 +46,7 @@ public class RoomManager {
         return roomTypeRepository.findAll();
     }
 
-    public List<RoomType> getAllRoomTypesByName(String typeName) {
+    public List<RoomType> findRoomTypeByName(String typeName) {
         return roomTypeRepository.findAll()
                 .stream()
                 .filter(e -> typeName.equalsIgnoreCase(e.getName()))
@@ -55,18 +55,27 @@ public class RoomManager {
 
 
     public Room createNewRoom(RoomType roomType, double pricePerNight, double cancellationFee) {
-        int roomNumber = roomRepository.getNewId();
+        int roomNumber = roomRepository.generateNextId();
 
         // При създаването на нова стая тя трябва да бъде AVAILABLE по подразбиране, докато някой не я наеме чрез метод
-        Room room = new RoomImpl(roomNumber,
-                roomType.getId(),
-                pricePerNight,
-                cancellationFee,
-                Status.AVAILABLE);
+        roomRepository.createValue(
+                new RoomImpl(roomNumber,
+                        roomType.getId(),
+                        pricePerNight,
+                        cancellationFee,
+                        Status.AVAILABLE));
 
-        roomRepository.createValue(room);
+        return getRoomById(roomNumber);
+    }
 
-        return room;
+    public void markRoomAsBooked(Room room) {
+        room.setStatus(Status.BOOKED);
+        updateRoom(room);
+    }
+
+    public void markRoomAsAvailable(Room room) {
+        room.setStatus(Status.AVAILABLE);
+        updateRoom(room);
     }
 
     public void updateRoom(Room room) {
@@ -84,11 +93,24 @@ public class RoomManager {
         return roomRepository.findAll();
     }
 
-    public List<Room> getAllAvailableByType(RoomType roomType) {
+    public List<Room> getAllAvailableRoomsByType(RoomType roomType) {
         return roomRepository.findAll()
                 .stream()
-                .filter(e -> roomType.getId() == e.getRoomTypeId())
                 .filter(e -> Status.AVAILABLE.equals(e.getStatus()))
+                .filter(e -> roomType.getId() == e.getRoomTypeId())
+                .toList();
+    }
+
+    public List<Room> getAllAvailableRoomsByTypeName(String roomTypeName) {
+        List<Integer> matchingTypeIds = findRoomTypeByName(roomTypeName)
+                .stream()
+                .map(RoomType::getId)
+                .toList();
+
+        return roomRepository.findAll()
+                .stream()
+                .filter(r -> matchingTypeIds.contains(r.getRoomTypeId()))
+                .filter(r -> Status.AVAILABLE.equals(r.getStatus()))
                 .toList();
     }
 

@@ -6,7 +6,6 @@ import func.ObjectProvider;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -62,13 +61,13 @@ public abstract class RepoService<T extends FileFormatter> implements ObjectProv
     // Тук приключва имплементационната секция с обикновенните CRUD операции--------------------------------------------
 
 
-    public void setNewId(int newId) {
-        this.newId = newId;
-    }
-
-    public int getNewId() {
+    public int generateNextId() {
         setNewId(newId + 1);
         return newId;
+    }
+
+    protected void setNewId(int newId) {
+        this.newId = newId;
     }
 
     protected Map<Integer, T> getEntityMap() {

@@ -22,7 +22,8 @@ public class BookingRepoService extends RepoService<Reservation> {
                 copy.getUserId(),
                 copy.getRoomId(),
                 copy.getArrivalData(),
-                copy.getDepartureDate());
+                copy.getDepartureDate(),
+                copy.isCanceled());
     }
 
     @Override
@@ -32,10 +33,11 @@ public class BookingRepoService extends RepoService<Reservation> {
         int roomId = Integer.parseInt(data[2].split(REGEX_EXPRESSION)[VALUE_POSITION]);
         LocalDate arrivalData = LocalDate.parse(data[3].split(REGEX_EXPRESSION)[VALUE_POSITION], formatter);
         LocalDate departureDate = LocalDate.parse(data[4].split(REGEX_EXPRESSION)[VALUE_POSITION], formatter);
+        boolean isCanceled = data.length == 6 && Boolean.parseBoolean(data[5].split(REGEX_EXPRESSION)[VALUE_POSITION]);
 
         setNewId(id);
 
-        return new Reservation(id, userId, roomId, arrivalData, departureDate);
+        return new Reservation(id, userId, roomId, arrivalData, departureDate, isCanceled);
     }
 
     @Override
