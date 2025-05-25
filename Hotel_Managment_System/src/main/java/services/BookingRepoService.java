@@ -5,7 +5,6 @@ import models.Reservation;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
 
 public class BookingRepoService extends RepoService<Reservation> {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -41,35 +40,8 @@ public class BookingRepoService extends RepoService<Reservation> {
     }
 
     @Override
-    public void updateValue(Reservation reservation) {
-        if (reservation == null || !existsById(reservation.getId())) {
-            System.out.println("Reservation cannot be null or non existed!");
-            return;
-        }
-
-        getEntityMap().put(reservation.getId(), reservation);
-        persistToFile();
-        System.out.println("Reservation is update!");
-    }
-
-    @Override
-    public void createValue(Reservation reservation) {
-        if (reservation == null || existsById(reservation.getId())) {
-            System.out.println("Reservation cannot be null or already existed!");
-            return;
-        }
-
-
-        getEntityMap().put(reservation.getId(), reservation);
-        persistToFile();
-        setNewId(reservation.getId());
-        System.out.println("New reservation is added!");
-    }
-
-    @Override
-    protected void mapDataFromFileLine(Map<Integer, Reservation> entityMap, String[] sourceObjData) {
-        Reservation reservation = getObjectFromData(sourceObjData);
-        entityMap.put(reservation.getId(), reservation);
+    protected String typeName() {
+        return "Reservation";
     }
 
     @Override

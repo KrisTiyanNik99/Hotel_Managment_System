@@ -12,7 +12,7 @@ public class UserImpl implements User {
     }
 
     @Override
-    public int getUserId() {
+    public int getId() {
         return id;
     }
 
@@ -27,7 +27,7 @@ public class UserImpl implements User {
     }
 
     @Override
-    public String toFileFormat() {
+    public String toString() {
         return String.format("No:%d; Name:%s; Password:%s;%n",
                 id,
                 username,

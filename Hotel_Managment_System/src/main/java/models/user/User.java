@@ -1,9 +1,8 @@
 package models.user;
 
-import func.FileFormatter;
+import func.Identifiable;
 
-public interface User extends FileFormatter {
-    int getUserId();
+public interface User extends Identifiable {
     String getUsername();
     String getPassword();
 }

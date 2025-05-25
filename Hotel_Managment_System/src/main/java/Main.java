@@ -22,7 +22,7 @@ public class Main {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-        RoomManager rm = new RoomManager(r, rt);
+        RoomManager rm = new RoomManager(r);
         BookingManager bm = new BookingManager(re, rm);
 
         List<Reservation> rs = bm.getAllUserBookingHistory(3);

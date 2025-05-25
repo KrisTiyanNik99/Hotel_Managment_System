@@ -1,7 +1,9 @@
 package services;
 
 import config.Configurations;
-import func.FileFormatter;
+import func.DataProvider;
+import func.DataWriter;
+import func.Identifiable;
 import func.ObjectProvider;
 
 import java.io.File;
@@ -13,7 +15,8 @@ import java.util.*;
     Това е клас който ще служи като абстракция над взимането на данни и ще съдържа нормалните CRUD операции, защото четенето
     и записването на елементи във файлове е тежка и бавна операция (все пак не използме база данни като mysql, oracle...)
  */
-public abstract class RepoService<T extends FileFormatter> implements ObjectProvider<T> {
+public abstract class RepoService<T extends Identifiable> implements ObjectProvider<T>,
+        DataWriter<T>, DataProvider<T> {
     private static final String ELEMENT_NOT_FOUND_MESSAGE = "Element with id: %d is not found!";
     protected static final String REGEX_EXPRESSION = ":";
     protected static final int VALUE_POSITION = 1;
@@ -29,22 +32,12 @@ public abstract class RepoService<T extends FileFormatter> implements ObjectProv
     }
 
     // От тук започват обикновенните "CRUD" операции, които трябва да може да предоставя един такъв клас като функционалност
+    @Override
     public T findById(int id) {
         return entityMap.get(id);
     }
 
-    public Map<Integer, T> getEntities() {
-        return Map.copyOf(entityMap);
-    }
-
-    public List<T> findAll() {
-        List<T> entities = entityMap.values()
-                .stream()
-                .toList();
-
-        return List.copyOf(entities);
-    }
-
+    @Override
     public void deleteById(int id) {
         /*
             Метода който запазва информация във файла е много бавна операция! Затова ни трябва тази проверка за да сме
@@ -58,7 +51,40 @@ public abstract class RepoService<T extends FileFormatter> implements ObjectProv
         entityMap.remove(id);
         persistToFile();
     }
-    // Тук приключва имплементационната секция с обикновенните CRUD операции--------------------------------------------
+
+    @Override
+    public void createValue(T newInstance) {
+        if (newInstance == null || existsById(newInstance.getId())) {
+            System.out.println(typeName() + " cannot be null or already existed!");
+            return;
+        }
+
+        entityMap.put(newInstance.getId(), newInstance);
+        persistToFile();
+        setNewId(newInstance.getId());
+        System.out.println("New " + typeName() + " is added!");
+    }
+
+    @Override
+    public void updateValue(T instance) {
+        if (instance == null || !existsById(instance.getId())) {
+            System.out.println(typeName() + " cannot be null or non existed!");
+            return;
+        }
+
+        entityMap.put(instance.getId(), instance);
+        persistToFile();
+        System.out.println(typeName() + " is successfully updated!");
+    }
+
+    @Override
+    public List<T> findAll() {
+        List<T> entities = entityMap.values()
+                .stream()
+                .toList();
+
+        return List.copyOf(entities);
+    }
 
 
     public int generateNextId() {
@@ -70,10 +96,6 @@ public abstract class RepoService<T extends FileFormatter> implements ObjectProv
         this.newId = newId;
     }
 
-    protected Map<Integer, T> getEntityMap() {
-        return entityMap;
-    }
-
     protected boolean existsById(int id) {
         return entityMap.containsKey(id);
     }
@@ -82,7 +104,7 @@ public abstract class RepoService<T extends FileFormatter> implements ObjectProv
         // Това бих го сложил в отделен thread, но засега става и така!
         try (PrintWriter writer = new PrintWriter(Configurations.FILE_ROOT_PATH + repositoryFileName)) {
             for (T currRoom : entityMap.values()) {
-                writer.print(currRoom.toFileFormat());
+                writer.print(currRoom);
             }
         } catch (Exception e) {
             throw new RuntimeException("Error while writing to file: " + Configurations.FILE_ROOT_PATH + repositoryFileName, e);
@@ -108,7 +130,6 @@ public abstract class RepoService<T extends FileFormatter> implements ObjectProv
     }
 
     private void loadFromFile() {
-        //InputStream repository = getClass().getClassLoader().getResourceAsStream(repositoryFileName)
         File repository = new File(Configurations.FILE_ROOT_PATH + repositoryFileName);
         if (!repository.exists()) {
             System.out.println("File does not exist: " + repository.getAbsolutePath());
@@ -124,9 +145,8 @@ public abstract class RepoService<T extends FileFormatter> implements ObjectProv
                     с ";" между всички отделни части на записа.
                 */
                 String[] sourceObjData = reader.nextLine().split(";");
-
-                // Тук можем да си позволим този метод да е void защото структурите от данни се предават по референция!
-                mapDataFromFileLine(entityMap, sourceObjData);
+                T newInstance = getObjectFromData(sourceObjData);
+                entityMap.put(newInstance.getId(), newInstance);
             }
 
         } catch (Exception е) {
@@ -136,13 +156,6 @@ public abstract class RepoService<T extends FileFormatter> implements ObjectProv
     }
 
 
-    /*
-       Абстрактни методи, които наследниците ще трябва да имплементират, защото всеки наследник ще ги извършва по
-       специфичен и различен начин.
-    */
-    public abstract void updateValue(T instance);
-    public abstract void createValue(T instance);
-
-    protected abstract void mapDataFromFileLine(Map<Integer, T> entityMap, String[] sourceObjData);
     protected abstract String initializeFileName();
+    protected abstract String typeName();
 }

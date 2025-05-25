@@ -1,11 +1,11 @@
 package models;
 
-import func.FileFormatter;
+import func.Identifiable;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public final class Reservation implements FileFormatter {
+public final class Reservation implements Identifiable {
     // Тук всички полета са final с цел да направим обекта immutable и да го енкапсулираме напълно
     private final int id;
     private final int userId;
@@ -24,7 +24,7 @@ public final class Reservation implements FileFormatter {
     }
 
     @Override
-    public String toFileFormat() {
+    public String toString() {
         return String.format("No:%d; UserID:%d; RoomID:%d; Arrival Data:%s; Departure Data:%s; Is canceled:%s;%n",
                 id,
                 userId,
@@ -34,6 +34,7 @@ public final class Reservation implements FileFormatter {
                 isCanceled);
     }
 
+    @Override
     public int getId() {
         return id;
     }

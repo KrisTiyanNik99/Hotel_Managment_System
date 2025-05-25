@@ -1,10 +1,9 @@
 package models.room;
 
-import func.FileFormatter;
+import func.Identifiable;
 import models.enums.Status;
 
-public interface Room extends FileFormatter {
-    int getRoomNumber();
+public interface Room extends Identifiable {
     int getRoomTypeId();
     double getPricePerNight();
     double getCancellationFee();

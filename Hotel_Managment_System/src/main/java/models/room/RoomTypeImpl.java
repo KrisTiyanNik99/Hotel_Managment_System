@@ -52,7 +52,7 @@ public class RoomTypeImpl implements RoomType {
     }
 
     @Override
-    public String toFileFormat() {
+    public String toString() {
         return String.format("No:%d; Name:%s; Amenities:%s; Maximum Occupancy:%d;%n",
                 id,
                 name,

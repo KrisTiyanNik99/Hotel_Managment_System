@@ -5,8 +5,6 @@ import models.enums.Status;
 import models.room.Room;
 import models.room.RoomImpl;
 
-import java.util.*;
-
 public class RoomRepoService extends RepoService<Room> {
     public RoomRepoService(String fileName) {
         super(fileName);
@@ -21,7 +19,7 @@ public class RoomRepoService extends RepoService<Room> {
          */
         Room copy = super.findById(id);
 
-        return copy == null ? null : new RoomImpl(copy.getRoomNumber(),
+        return copy == null ? null : new RoomImpl(copy.getId(),
                 copy.getRoomTypeId(),
                 copy.getPricePerNight(),
                 copy.getCancellationFee(),
@@ -42,35 +40,8 @@ public class RoomRepoService extends RepoService<Room> {
     }
 
     @Override
-    public void updateValue(Room room) {
-        if (room == null || !existsById(room.getRoomNumber())) {
-            System.out.println("Room cannot be null or non existed!");
-            return;
-        }
-
-        getEntityMap().put(room.getRoomNumber(), room);
-        persistToFile();
-        System.out.printf("You successfully update %s and save it into file!%n", room.toFileFormat());
-    }
-
-    @Override
-    public void createValue(Room room) {
-        if (room == null || existsById(room.getRoomNumber())) {
-            System.out.println("Room cannot be null or already existed!");
-            return;
-        }
-
-        getEntityMap().put(room.getRoomNumber(), room);
-        persistToFile();
-        setNewId(room.getRoomNumber());
-        System.out.printf("You successfully add new Room into file!%n");
-    }
-
-
-    @Override
-    protected void mapDataFromFileLine(Map<Integer, Room> entityMap, String[] sourceObjData) {
-        Room room = getObjectFromData(sourceObjData);
-        entityMap.put(room.getRoomNumber(), room);
+    protected String typeName() {
+        return "Room";
     }
 
     @Override

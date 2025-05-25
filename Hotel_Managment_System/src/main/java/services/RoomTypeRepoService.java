@@ -4,8 +4,6 @@ import config.Configurations;
 import models.room.RoomType;
 import models.room.RoomTypeImpl;
 
-import java.util.Map;
-
 public class RoomTypeRepoService extends RepoService<RoomType> {
     public RoomTypeRepoService(String repositoryFileName) {
         super(repositoryFileName);
@@ -34,34 +32,8 @@ public class RoomTypeRepoService extends RepoService<RoomType> {
     }
 
     @Override
-    public void updateValue(RoomType roomType) {
-        if (roomType == null || !existsById(roomType.getId())) {
-            System.out.println("RoomType cannot be null or non existed!");
-            return;
-        }
-
-        getEntityMap().put(roomType.getId(), roomType);
-        persistToFile();
-        System.out.printf("You successfully update Room type into file!%n");
-    }
-
-    @Override
-    public void createValue(RoomType roomType) {
-        if (roomType == null || existsById(roomType.getId())) {
-            System.out.println("RoomType cannot be null or already existed!");
-            return;
-        }
-
-        getEntityMap().put(roomType.getId(), roomType);
-        persistToFile();
-        setNewId(roomType.getId());
-        System.out.printf("You successfully add new Room type into file!%n");
-    }
-
-    @Override
-    protected void mapDataFromFileLine(Map<Integer, RoomType> entityMap, String[] sourceObjData) {
-        RoomType roomType = getObjectFromData(sourceObjData);
-        entityMap.put(roomType.getId(), roomType);
+    protected String typeName() {
+        return "Room type";
     }
 
     @Override

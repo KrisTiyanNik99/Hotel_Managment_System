@@ -1,9 +1,8 @@
 package models.room;
 
-import func.FileFormatter;
+import func.Identifiable;
 
-public interface RoomType extends FileFormatter {
-    int getId();
+public interface RoomType extends Identifiable {
     String getName();
     String getAmenities();
     int getMaximumOccupancy();

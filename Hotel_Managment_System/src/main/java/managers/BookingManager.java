@@ -1,7 +1,7 @@
 package managers;
 
+import func.RoomStatusService;
 import models.Reservation;
-import models.enums.Status;
 import models.room.Room;
 import services.RepoService;
 
@@ -10,26 +10,29 @@ import java.util.List;
 
 public class BookingManager {
     private final RepoService<Reservation> bookingRepo;
-    private final RoomManager roomManager;
+    private final RoomStatusService roomManagerStatus;
 
-    public BookingManager(RepoService<Reservation> bookingRepo, RoomManager roomManager) {
+    public BookingManager(RepoService<Reservation> bookingRepo, RoomStatusService roomManagerStatus) {
         this.bookingRepo = bookingRepo;
-        this.roomManager = roomManager;
+        this.roomManagerStatus = roomManagerStatus;
     }
 
     public Reservation bookRoom(int userId, Room room, LocalDate checkIn, LocalDate checkOut) {
+        /*
+        Подаването на стаята като аргумент гарантира, че номера който ще се запази във файла срещу съответната резервация
+         ще бъде винаги валиден и съществуващ. Отделно така предотвратяваме подаването на невалидни стойности!
+         */
         int reservationId = bookingRepo.generateNextId();
 
         bookingRepo.createValue(
                 new Reservation(reservationId,
                         userId,
-                        room.getRoomNumber(),
+                        room.getId(),
                         checkIn,
                         checkOut,
                         false));
 
-        roomManager.markRoomAsBooked(room);
-
+        roomManagerStatus.markRoomAsBooked(room.getId());
         return getReservationById(reservationId);
     }
 
@@ -38,9 +41,7 @@ public class BookingManager {
         canceledReservation.cancelReservation();
         bookingRepo.updateValue(canceledReservation);
 
-        Room room = roomManager.getRoomById(canceledReservation.getRoomId());
-
-        roomManager.markRoomAsAvailable(room);
+        roomManagerStatus.markRoomAsAvailable(canceledReservation.getRoomId());
         return getReservationById(canceledReservation.getId());
     }
 

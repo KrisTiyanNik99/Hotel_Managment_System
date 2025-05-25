@@ -4,8 +4,6 @@ import config.Configurations;
 import models.user.User;
 import models.user.UserImpl;
 
-import java.util.Map;
-
 public class UserRepoService extends RepoService<User> {
     public UserRepoService(String repositoryFileName) {
         super(repositoryFileName);
@@ -15,7 +13,7 @@ public class UserRepoService extends RepoService<User> {
     public User findById(int id) {
         User copy = super.findById(id);
 
-        return copy == null ? null : new UserImpl(copy.getUserId(),
+        return copy == null ? null : new UserImpl(copy.getId(),
                 copy.getUsername(),
                 copy.getPassword());
     }
@@ -32,34 +30,8 @@ public class UserRepoService extends RepoService<User> {
     }
 
     @Override
-    public void updateValue(User user) {
-        if (user == null || !existsById(user.getUserId())) {
-            System.out.println("Such user is not found!");
-            return;
-        }
-
-        getEntityMap().put(user.getUserId(), user);
-        persistToFile();
-        System.out.println("Successfully change user in file!");
-    }
-
-    @Override
-    public void createValue(User user) {
-        if (user == null || existsById(user.getUserId())) {
-            System.out.println("User cannot be null or already existed!");
-            return;
-        }
-
-        getEntityMap().put(user.getUserId(), user);
-        persistToFile();
-        setNewId(user.getUserId());
-        System.out.println("Successfully add new user in file!");
-    }
-
-    @Override
-    protected void mapDataFromFileLine(Map<Integer, User> entityMap, String[] sourceObjData) {
-        User user = getObjectFromData(sourceObjData);
-        entityMap.put(user.getUserId(), user);
+    protected String typeName() {
+        return "User";
     }
 
     @Override
