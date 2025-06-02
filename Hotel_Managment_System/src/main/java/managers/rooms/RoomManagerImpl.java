@@ -1,6 +1,5 @@
-package managers;
+package managers.rooms;
 
-import func.RoomStatusService;
 import models.enums.Status;
 import models.room.Room;
 import models.room.RoomImpl;
@@ -9,14 +8,14 @@ import services.RepoService;
 
 import java.util.List;
 
-public class RoomManager implements RoomStatusService {
+public class RoomManagerImpl implements RoomManager {
     private final RepoService<Room> roomRepository;
 
-    public RoomManager(RepoService<Room> roomRepository) {
+    public RoomManagerImpl(RepoService<Room> roomRepository) {
         this.roomRepository = roomRepository;
     }
 
-    public Room getRoomById(int roomNumber) {
+    public Room getById(int roomNumber) {
         return roomRepository.findById(roomNumber);
     }
 
@@ -31,47 +30,50 @@ public class RoomManager implements RoomStatusService {
                         cancellationFee,
                         Status.AVAILABLE));
 
-        return getRoomById(roomNumber);
-    }
-
-    @Override
-    public void markRoomAsBooked(int roomId) {
-        Room room = getRoomById(roomId);
-        room.setStatus(Status.BOOKED);
-        updateRoom(room);
-    }
-
-    @Override
-    public void markRoomAsAvailable(int roomId) {
-        Room room = getRoomById(roomId);
-        room.setStatus(Status.AVAILABLE);
-        updateRoom(room);
+        return getById(roomNumber);
     }
 
     public void updateRoom(Room room) {
         roomRepository.updateValue(room);
     }
 
-    public List<Room> getAvailableRooms() {
+    public void deleteRoom(Room room) {
+        roomRepository.deleteById(room.getId());
+    }
+
+    @Override
+    public void markRoomAsBooked(int roomId) {
+        Room room = getById(roomId);
+        room.setStatus(Status.BOOKED);
+        updateRoom(room);
+    }
+
+    @Override
+    public void markRoomAsAvailable(int roomId) {
+        Room room = getById(roomId);
+        room.setStatus(Status.AVAILABLE);
+        updateRoom(room);
+    }
+
+    @Override
+    public List<Room> getAllAvailableRooms() {
         return roomRepository.findAll()
                 .stream()
                 .filter(e -> e.getStatus().equals(Status.AVAILABLE))
                 .toList();
     }
 
-    public List<Room> getAllRooms() {
+    @Override
+    public List<Room> getAll() {
         return roomRepository.findAll();
     }
 
+    @Override
     public List<Room> getAllAvailableRoomsByType(RoomType roomType) {
         return roomRepository.findAll()
                 .stream()
                 .filter(e -> Status.AVAILABLE.equals(e.getStatus()))
                 .filter(e -> roomType.getId() == e.getRoomTypeId())
                 .toList();
-    }
-
-    public void deleteRoom(Room room) {
-        roomRepository.deleteById(room.getId());
     }
 }

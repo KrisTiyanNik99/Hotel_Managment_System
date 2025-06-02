@@ -1,4 +1,4 @@
-package managers;
+package managers.room_types;
 
 import models.room.RoomType;
 import models.room.RoomTypeImpl;
@@ -6,14 +6,15 @@ import services.RepoService;
 
 import java.util.List;
 
-public class RoomTypeManager {
+public class RoomTypeManagerImpl implements RoomTypeManager{
     private final RepoService<RoomType> roomTypeRepository;
 
-    public RoomTypeManager(RepoService<RoomType> roomTypeRepoService) {
+    public RoomTypeManagerImpl(RepoService<RoomType> roomTypeRepoService) {
         this.roomTypeRepository = roomTypeRepoService;
     }
 
-    public RoomType getRoomTypeById(int roomTypeId) {
+    @Override
+    public RoomType getById(int roomTypeId) {
         return roomTypeRepository.findById(roomTypeId);
     }
 
@@ -26,7 +27,7 @@ public class RoomTypeManager {
                         amenities,
                         maximumOccupancy));
 
-        return getRoomTypeById(roomTypeId);
+        return getById(roomTypeId);
     }
 
     public void updateRoomType(RoomType roomType) {
@@ -37,11 +38,13 @@ public class RoomTypeManager {
         roomTypeRepository.deleteById(roomType.getId());
     }
 
-    public List<RoomType> getAllRoomTypes() {
+    @Override
+    public List<RoomType> getAll() {
         return roomTypeRepository.findAll();
     }
 
-    public List<RoomType> findRoomTypeByName(String typeName) {
+    @Override
+    public List<RoomType> findRoomTypesByName(String typeName) {
         return roomTypeRepository.findAll()
                 .stream()
                 .filter(e -> typeName.equalsIgnoreCase(e.getName()))

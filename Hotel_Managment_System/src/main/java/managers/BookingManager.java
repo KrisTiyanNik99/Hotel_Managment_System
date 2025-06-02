@@ -1,6 +1,6 @@
 package managers;
 
-import func.RoomStatusService;
+import managers.rooms.RoomStatusService;
 import models.Reservation;
 import models.room.Room;
 import services.RepoService;

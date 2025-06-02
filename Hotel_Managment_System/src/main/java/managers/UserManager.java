@@ -20,7 +20,7 @@ public class UserManager {
                         username,
                         password));
 
-        return getUserById(userId);
+        return userRepoService.findById(userId);
     }
 
     public User login(String username, String password) {
@@ -31,9 +31,5 @@ public class UserManager {
                 .filter(e -> password.equals(e.getPassword()))
                 .findFirst()
                 .orElse(null);
-    }
-
-    public User getUserById(int userId) {
-        return userRepoService.findById(userId);
     }
 }
