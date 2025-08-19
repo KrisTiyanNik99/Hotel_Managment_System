@@ -7,6 +7,10 @@ import javax.swing.*;
 public abstract class AbstractsUIElement extends JPanel implements UIComponent {
     private final UIElement elementType = getElementType();
 
+    protected AbstractsUIElement() {
+        setLayout(null);
+    }
+
     @Override
     public String getType() {
         return elementType.getTypeAsString();

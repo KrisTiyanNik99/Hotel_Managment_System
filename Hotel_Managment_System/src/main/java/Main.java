@@ -1,5 +1,4 @@
 import controller.AppController;
-import controller.ServiceController;
 import models.user.User;
 import services.managers.users.UserManager;
 import services.managers.users.UserManagerImpl;
@@ -7,6 +6,7 @@ import services.repos.RepoService;
 import services.repos.UserRepoService;
 import ui.MainWindow;
 import ui.components.LoginPanel;
+import ui.components.RegisterPanel;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,10 +14,12 @@ public class Main {
         UserManager userManager = new UserManagerImpl(userRepoService);
 
         MainWindow mw = new MainWindow();
-        AppController ap = new AppController(mw, new ServiceController(null, null, null, null));
+        AppController ap = new AppController(mw);
 
         LoginPanel loginPanel = new LoginPanel(userManager, ap);
+        RegisterPanel registerPanel = new RegisterPanel(userManager);
         ap.registerComponents(loginPanel);
+        ap.registerComponents(registerPanel);
         ap.showLoginPanel();
         mw.setVisible(true);
     }

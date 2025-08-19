@@ -4,6 +4,8 @@ import models.user.User;
 import models.user.UserImpl;
 import services.repos.RepoService;
 
+import static config.ConstantMessages.USER_ALREADY_EXIST;
+
 public class UserManagerImpl implements UserManager {
     private final RepoService<User> userRepoService;
 
@@ -12,9 +14,14 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public User register(String username, String password) {
+    public User register(String username, String password) throws Exception {
         // Тук може да сложим хешираща функция на паролата, но засега е добре така!
         int userId = userRepoService.generateNextId();
+        User user = login(username, password);
+
+        if (user != null) {
+            throw new Exception(USER_ALREADY_EXIST);
+        }
 
         userRepoService.createValue(
                 new UserImpl(userId,
@@ -26,7 +33,6 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public User login(String username, String password) {
-        // При нормални условия би било по- добре да върнем Optional<T>
         return userRepoService.findAll()
                 .stream()
                 .filter(e -> username.equals(e.getUsername()))

@@ -3,7 +3,10 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainWindow extends JFrame implements Window{
+import static config.UIStyle.MAIN_WINDOW_HEIGHT;
+import static config.UIStyle.MAIN_WINDOW_WIDTH;
+
+public class MainWindow extends JFrame implements Window {
     private final CardLayout cardLayout;
     private final JPanel contentPanel;
 
@@ -16,8 +19,9 @@ public class MainWindow extends JFrame implements Window{
 
     private void initCommonElements() {
         setTitle("Hotel Manager System");
-        setSize(800, 600);
+        setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setContentPane(contentPanel);
     }
 
