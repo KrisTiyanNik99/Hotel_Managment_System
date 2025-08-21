@@ -18,7 +18,7 @@ public class BookingManagerImpl implements BookingManager {
     }
 
     @Override
-    public Reservation bookRoom(int userId, Room room, LocalDate checkIn, LocalDate checkOut) {
+    public Reservation bookRoom(Integer userId, Room room, LocalDate checkIn, LocalDate checkOut) {
         /*
         Подаването на стаята като аргумент гарантира, че номера който ще се запази във файла срещу съответната резервация
          ще бъде винаги валиден и съществуващ. Отделно така предотвратяваме подаването на невалидни стойности!
@@ -38,7 +38,7 @@ public class BookingManagerImpl implements BookingManager {
     }
 
     @Override
-    public Reservation cancelReservation(int reservationId) {
+    public Reservation cancelReservation(Integer reservationId) {
         Reservation canceledReservation = getReservationById(reservationId);
         canceledReservation.cancelReservation();
         bookingRepo.updateValue(canceledReservation);
@@ -48,24 +48,24 @@ public class BookingManagerImpl implements BookingManager {
     }
 
     @Override
-    public List<Reservation> getAllUserBookingHistory(int userId) {
+    public List<Reservation> getAllUserBookingHistory(Integer userId) {
         return bookingRepo.findAll()
                 .stream()
-                .filter(e -> userId == e.getUserId())
+                .filter(e -> userId.equals(e.getUserId()))
                 .toList();
     }
 
     @Override
-    public List<Reservation> getCanceledReservations(int userId) {
+    public List<Reservation> getCanceledReservations(Integer userId) {
         return bookingRepo.findAll()
                 .stream()
-                .filter(e -> userId == e.getUserId())
+                .filter(e -> userId.equals(e.getUserId()))
                 .filter(Reservation::isCanceled)
                 .toList();
     }
 
     @Override
-    public Reservation getReservationById(int reservationId) {
+    public Reservation getReservationById(Integer reservationId) {
         return bookingRepo.findById(reservationId);
     }
 }

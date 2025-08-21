@@ -1,18 +1,18 @@
 package models.user;
 
 public class UserImpl implements User {
-    private final int id;
+    private final Integer id;
     private final String username;
     private final String password;
 
-    public UserImpl(int id, String username, String password) {
+    public UserImpl(Integer id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;
     }
 
     @Override
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

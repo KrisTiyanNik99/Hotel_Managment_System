@@ -16,7 +16,7 @@ public class RoomManagerImpl implements RoomManager {
     }
 
     @Override
-    public Room getById(int roomNumber) {
+    public Room getById(Integer roomNumber) {
         return roomRepository.findById(roomNumber);
     }
 
@@ -46,12 +46,12 @@ public class RoomManagerImpl implements RoomManager {
     }
 
     @Override
-    public void markRoomAsAvailable(int roomId) {
+    public void markRoomAsAvailable(Integer roomId) {
         markRoom(roomId, Status.AVAILABLE);
     }
 
     @Override
-    public void markRoomAsBooked(int roomId) {
+    public void markRoomAsBooked(Integer roomId) {
         markRoom(roomId, Status.BOOKED);
     }
 
@@ -73,11 +73,11 @@ public class RoomManagerImpl implements RoomManager {
         return roomRepository.findAll()
                 .stream()
                 .filter(e -> Status.AVAILABLE.equals(e.getStatus()))
-                .filter(e -> roomType.getId() == e.getRoomTypeId())
+                .filter(e -> roomType.getId().equals(e.getRoomTypeId()))
                 .toList();
     }
 
-    private void markRoom(int id, Status status) {
+    private void markRoom(Integer id, Status status) {
         Room room = getById(id);
         room.setStatus(status);
         updateRoom(room);

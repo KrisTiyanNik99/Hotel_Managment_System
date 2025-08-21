@@ -7,9 +7,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface BookingManager {
-    Reservation bookRoom(int userId, Room room, LocalDate checkIn, LocalDate checkOut);
-    Reservation cancelReservation(int reservationId);
-    Reservation getReservationById(int reservationId);
-    List<Reservation> getAllUserBookingHistory(int userId);
-    List<Reservation> getCanceledReservations(int userId);
+    Reservation bookRoom(Integer userId, Room room, LocalDate checkIn, LocalDate checkOut);
+    Reservation cancelReservation(Integer reservationId);
+    Reservation getReservationById(Integer reservationId);
+    List<Reservation> getAllUserBookingHistory(Integer userId);
+    List<Reservation> getCanceledReservations(Integer userId);
 }

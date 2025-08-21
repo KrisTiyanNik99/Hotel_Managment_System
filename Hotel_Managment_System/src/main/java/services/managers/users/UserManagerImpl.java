@@ -4,7 +4,7 @@ import models.user.User;
 import models.user.UserImpl;
 import services.repos.RepoService;
 
-import static config.ConstantMessages.USER_ALREADY_EXIST;
+import java.util.Objects;
 
 public class UserManagerImpl implements UserManager {
     private final RepoService<User> userRepoService;
@@ -17,27 +17,37 @@ public class UserManagerImpl implements UserManager {
     public User register(String username, String password) throws Exception {
         // Тук може да сложим хешираща функция на паролата, но засега е добре така!
         int userId = userRepoService.generateNextId();
-        User user = login(username, password);
 
-        if (user != null) {
-            throw new Exception(USER_ALREADY_EXIST);
-        }
-
-        userRepoService.createValue(
-                new UserImpl(userId,
-                        username,
-                        password));
+        User currentUser = new UserImpl(userId,
+                username,
+                password);
+        System.out.println(userId);
+        userRepoService.createValue(currentUser);
 
         return userRepoService.findById(userId);
     }
 
     @Override
-    public User login(String username, String password) {
-        return userRepoService.findAll()
+    public Integer login(String username, String password) {
+        User user = userRepoService.findAll()
                 .stream()
                 .filter(e -> username.equals(e.getUsername()))
                 .filter(e -> password.equals(e.getPassword()))
                 .findFirst()
                 .orElse(null);
+
+        return Objects.requireNonNull(user).getId();
+    }
+
+    @Override
+    public boolean isUserExist(String username, String password) {
+        User user = userRepoService.findAll()
+                .stream()
+                .filter(e -> username.equals(e.getUsername()))
+                .filter(e -> password.equals(e.getPassword()))
+                .findFirst()
+                .orElse(null);
+
+        return user != null;
     }
 }

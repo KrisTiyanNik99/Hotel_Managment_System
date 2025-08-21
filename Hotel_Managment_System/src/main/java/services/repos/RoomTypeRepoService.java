@@ -10,7 +10,7 @@ public class RoomTypeRepoService extends RepoService<RoomType> {
     }
 
     @Override
-    public RoomType findById(int id) {
+    public RoomType findById(Integer id) {
         RoomType copy = super.findById(id);
 
         return copy == null ? null : new RoomTypeImpl(copy.getId(),
@@ -21,7 +21,7 @@ public class RoomTypeRepoService extends RepoService<RoomType> {
 
     @Override
     public RoomType getObjectFromData(String[] data) {
-        int id = Integer.parseInt(data[0].split(REGEX_EXPRESSION)[VALUE_POSITION]);
+        Integer id = Integer.parseInt(data[0].split(REGEX_EXPRESSION)[VALUE_POSITION]);
         String name = data[1].split(REGEX_EXPRESSION)[VALUE_POSITION];
         String amenities = data[2].split(REGEX_EXPRESSION)[VALUE_POSITION];
         int maxOccupancy = Integer.parseInt(data[3].split(REGEX_EXPRESSION)[VALUE_POSITION]);

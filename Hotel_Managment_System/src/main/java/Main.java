@@ -17,9 +17,13 @@ public class Main {
         AppController ap = new AppController(mw);
 
         LoginPanel loginPanel = new LoginPanel(userManager, ap);
-        RegisterPanel registerPanel = new RegisterPanel(userManager);
+        RegisterPanel registerPanel = new RegisterPanel(userManager, ap);
+
+        System.out.println("Sled tova tuk idva ");
         ap.registerComponents(loginPanel);
         ap.registerComponents(registerPanel);
+
+        ap.showLoginPanel();
         ap.showLoginPanel();
         mw.setVisible(true);
     }

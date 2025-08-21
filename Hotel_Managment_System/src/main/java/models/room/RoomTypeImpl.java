@@ -1,12 +1,12 @@
 package models.room;
 
 public class RoomTypeImpl implements RoomType {
-    private final int id;
+    private final Integer id;
     private String name;
     private String amenities;
     private int maximumOccupancy;
 
-    public RoomTypeImpl(int id, String name, String amenities, int maximumOccupancy) {
+    public RoomTypeImpl(Integer id, String name, String amenities, int maximumOccupancy) {
         this.id = id;
         this.name = name;
         this.amenities = amenities;
@@ -14,7 +14,7 @@ public class RoomTypeImpl implements RoomType {
     }
 
     @Override
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

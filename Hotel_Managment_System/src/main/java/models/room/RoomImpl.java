@@ -3,13 +3,13 @@ package models.room;
 import models.enums.Status;
 
 public class RoomImpl implements Room {
-    private final int roomNumber;
-    private int roomTypeId;
+    private final Integer roomNumber;
+    private Integer roomTypeId;
     private double pricePerNight;
     private double cancellationFee;
     private Status status;
 
-    public RoomImpl(int roomNumber, int roomTypeId, double pricePerNight, double cancellationFee, Status status) {
+    public RoomImpl(Integer roomNumber, Integer roomTypeId, double pricePerNight, double cancellationFee, Status status) {
         this.roomNumber = roomNumber;
         setRoomTypeId(roomTypeId);
         setPricePerNight(pricePerNight);
@@ -18,12 +18,12 @@ public class RoomImpl implements Room {
     }
 
     @Override
-    public int getId() {
+    public Integer getId() {
         return roomNumber;
     }
 
     @Override
-    public int getRoomTypeId() {
+    public Integer getRoomTypeId() {
         return roomTypeId;
     }
 

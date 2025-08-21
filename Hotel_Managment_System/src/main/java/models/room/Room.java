@@ -4,7 +4,7 @@ import func.Identifiable;
 import models.enums.Status;
 
 public interface Room extends Identifiable {
-    int getRoomTypeId();
+    Integer getRoomTypeId();
     double getPricePerNight();
     double getCancellationFee();
     void setStatus(Status status);

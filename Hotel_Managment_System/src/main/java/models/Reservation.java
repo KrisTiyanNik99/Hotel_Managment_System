@@ -7,14 +7,14 @@ import java.time.format.DateTimeFormatter;
 
 public final class Reservation implements Identifiable {
     // Тук всички полета са final с цел да направим обекта immutable и да го енкапсулираме напълно
-    private final int id;
+    private final Integer id;
     private final int userId;
     private final int roomId;
     private final LocalDate arrivalData;
     private final LocalDate departureDate;
     private boolean isCanceled = false;
 
-    public Reservation(int id, int userId, int roomId, LocalDate arrivalData, LocalDate departureDate, boolean isCanceled) {
+    public Reservation(Integer id, Integer userId, Integer roomId, LocalDate arrivalData, LocalDate departureDate, boolean isCanceled) {
         this.id = id;
         this.userId = userId;
         this.roomId = roomId;
@@ -35,15 +35,15 @@ public final class Reservation implements Identifiable {
     }
 
     @Override
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public int getRoomId() {
+    public Integer getRoomId() {
         return roomId;
     }
 

@@ -14,7 +14,7 @@ public class RoomTypeManagerImpl implements RoomTypeManager{
     }
 
     @Override
-    public RoomType getById(int roomTypeId) {
+    public RoomType getById(Integer roomTypeId) {
         return roomTypeRepository.findById(roomTypeId);
     }
 

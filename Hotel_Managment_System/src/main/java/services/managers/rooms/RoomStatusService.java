@@ -1,6 +1,6 @@
 package services.managers.rooms;
 
 public interface RoomStatusService {
-    void markRoomAsAvailable(int roomId);
-    void markRoomAsBooked(int roomId);
+    void markRoomAsAvailable(Integer roomId);
+    void markRoomAsBooked(Integer roomId);
 }

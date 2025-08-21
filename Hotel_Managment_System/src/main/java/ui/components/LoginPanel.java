@@ -88,15 +88,14 @@ public class LoginPanel extends AbstractsUIElement implements UIComponent {
                 throw new NullPointerException(USERNAME_PASSWORD_CANNOT_EMPTY);
             }
 
-            User user = userManager.login(username, password);
-            if (user == null) {
+            Integer userId = userManager.login(username, password);
+            if (userId == null) {
                 throw new NullPointerException(USER_DOES_NOT_EXIST);
             }
 
             // TODO: Add menu
-            System.out.println(user.getUsername());
-            System.out.println(user.getPassword());
-            controller.showMainPanel();
+            System.out.println("Da da stiga do tuka!");
+            //controller.showMainPanel();
         });
     }
 }

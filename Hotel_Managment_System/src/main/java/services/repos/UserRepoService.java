@@ -10,7 +10,7 @@ public class UserRepoService extends RepoService<User> {
     }
 
     @Override
-    public User findById(int id) {
+    public User findById(Integer id) {
         User copy = super.findById(id);
 
         return copy == null ? null : new UserImpl(copy.getId(),
@@ -20,7 +20,7 @@ public class UserRepoService extends RepoService<User> {
 
     @Override
     public User getObjectFromData(String[] data) {
-        int id = Integer.parseInt(data[0].split(REGEX_EXPRESSION)[VALUE_POSITION]);
+        Integer id = Integer.parseInt(data[0].split(REGEX_EXPRESSION)[VALUE_POSITION]);
         String username = data[1].split(REGEX_EXPRESSION)[VALUE_POSITION];
         String password = data[2].split(REGEX_EXPRESSION)[VALUE_POSITION];
 

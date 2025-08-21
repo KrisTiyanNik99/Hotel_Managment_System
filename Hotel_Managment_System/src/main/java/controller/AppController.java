@@ -4,6 +4,8 @@ import models.enums.UIElement;
 import ui.Window;
 import ui.components.AbstractsUIElement;
 
+import javax.swing.*;
+
 public class AppController implements UIController {
 //    private LoginPanel loginPanel;
 //    private RegisterPanel registerPanel;
@@ -12,8 +14,6 @@ public class AppController implements UIController {
 
     public AppController(Window mainWindow) {
         this.mainWindow = mainWindow;
-
-        showLoginPanel();
     }
 
     @Override
@@ -37,8 +37,8 @@ public class AppController implements UIController {
     }
 
     @Override
-    public void showMainPanel() {
-        mainWindow.showPanel(UIElement.MENU.getTypeAsString());
+    public void showMainPanel(JPanel jPanel) {
+        mainWindow.repaintPanel(UIElement.MENU.getTypeAsString(), jPanel);
     }
 
 //    private boolean compareUIComponentTypes(UIComponent component, UIElement uiElement) {

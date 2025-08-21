@@ -14,7 +14,7 @@ public class BookingRepoService extends RepoService<Reservation> {
     }
 
     @Override
-    public Reservation findById(int id) {
+    public Reservation findById(Integer id) {
         Reservation copy = super.findById(id);
 
         return copy == null ? null : new Reservation(copy.getId(),
@@ -27,9 +27,9 @@ public class BookingRepoService extends RepoService<Reservation> {
 
     @Override
     public Reservation getObjectFromData(String[] data) {
-        int id = Integer.parseInt(data[0].split(REGEX_EXPRESSION)[VALUE_POSITION]);
-        int userId = Integer.parseInt(data[1].split(REGEX_EXPRESSION)[VALUE_POSITION]);
-        int roomId = Integer.parseInt(data[2].split(REGEX_EXPRESSION)[VALUE_POSITION]);
+        Integer id = Integer.parseInt(data[0].split(REGEX_EXPRESSION)[VALUE_POSITION]);
+        Integer userId = Integer.parseInt(data[1].split(REGEX_EXPRESSION)[VALUE_POSITION]);
+        Integer roomId = Integer.parseInt(data[2].split(REGEX_EXPRESSION)[VALUE_POSITION]);
         LocalDate arrivalData = LocalDate.parse(data[3].split(REGEX_EXPRESSION)[VALUE_POSITION], formatter);
         LocalDate departureDate = LocalDate.parse(data[4].split(REGEX_EXPRESSION)[VALUE_POSITION], formatter);
         boolean isCanceled = data.length == 6 && Boolean.parseBoolean(data[5].split(REGEX_EXPRESSION)[VALUE_POSITION]);

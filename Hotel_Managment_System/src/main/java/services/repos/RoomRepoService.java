@@ -11,7 +11,7 @@ public class RoomRepoService extends RepoService<Room> {
     }
 
     @Override
-    public Room findById(int id) {
+    public Room findById(Integer id) {
         /*
             Правим override на този метод да връща копие на стойността, защото можем да променяме обекта през референцията.
             Така, когато връщаме копие енкапсулираме логиката и принуждаме потребителя да използва updateValue метода
@@ -28,8 +28,8 @@ public class RoomRepoService extends RepoService<Room> {
 
     @Override
     public Room getObjectFromData(String[] data) {
-        int roomNumber = Integer.parseInt(data[0].split(REGEX_EXPRESSION)[VALUE_POSITION]);
-        int roomTypeId = Integer.parseInt(data[1].split(REGEX_EXPRESSION)[VALUE_POSITION]);
+        Integer roomNumber = Integer.parseInt(data[0].split(REGEX_EXPRESSION)[VALUE_POSITION]);
+        Integer roomTypeId = Integer.parseInt(data[1].split(REGEX_EXPRESSION)[VALUE_POSITION]);
         double pricePerNight = Double.parseDouble(data[2].split(REGEX_EXPRESSION)[VALUE_POSITION].replace(",", "."));
         double cancellationFee = Double.parseDouble(data[3].split(REGEX_EXPRESSION)[VALUE_POSITION].replace(",", "."));
         Status status = Status.parseStatus(data[4].split(REGEX_EXPRESSION)[VALUE_POSITION]);

@@ -23,7 +23,7 @@ public abstract class RepoService<T extends Identifiable> implements ObjectProvi
 
     private final Map<Integer, T> entityMap;
     private String repositoryFileName;
-    private int newId;
+    private Integer newId;
 
     public RepoService(String repositoryFileName) {
         setRepositoryFileName(repositoryFileName);
@@ -33,12 +33,12 @@ public abstract class RepoService<T extends Identifiable> implements ObjectProvi
 
     // От тук започват обикновенните "CRUD" операции, които трябва да може да предоставя един такъв клас като функционалност
     @Override
-    public T findById(int id) {
+    public T findById(Integer id) {
         return entityMap.get(id);
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Integer id) {
         /*
             Метода който запазва информация във файла е много бавна операция! Затова ни трябва тази проверка за да сме
             сигурни, че id-то съзществува и да не бавим програмата излишно
@@ -92,11 +92,11 @@ public abstract class RepoService<T extends Identifiable> implements ObjectProvi
         return newId;
     }
 
-    protected void setNewId(int newId) {
+    protected void setNewId(Integer newId) {
         this.newId = newId;
     }
 
-    protected boolean existsById(int id) {
+    protected boolean existsById(Integer id) {
         return entityMap.containsKey(id);
     }
 
