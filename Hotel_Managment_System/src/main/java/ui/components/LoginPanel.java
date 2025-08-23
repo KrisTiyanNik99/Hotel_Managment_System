@@ -2,7 +2,6 @@ package ui.components;
 
 import controller.UIController;
 import models.enums.UIElement;
-import models.user.User;
 import services.managers.users.UserManager;
 
 import javax.swing.*;
@@ -13,8 +12,6 @@ import static config.ConstantMessages.USER_DOES_NOT_EXIST;
 import static config.UIStyle.*;
 
 public class LoginPanel extends AbstractsUIElement implements UIComponent {
-    private static final int X_SCALE = 240;
-
     private final UserManager userManager;
     private final UIController controller;
 
@@ -25,9 +22,8 @@ public class LoginPanel extends AbstractsUIElement implements UIComponent {
         initComponents();
     }
 
-    private void initComponents() {
-        setBackground(Color.CYAN);
-
+    @Override
+    public void initComponents() {
         JLabel usernameLabel = new JLabel(USERNAME_TEXT_LABEL);
         setLabelSettings(usernameLabel, 100);
 
@@ -56,30 +52,6 @@ public class LoginPanel extends AbstractsUIElement implements UIComponent {
         return UIElement.LOGIN;
     }
 
-    private void setLabelSettings(JLabel label, int y_scale) {
-        label.setBounds(X_SCALE, y_scale, LABEL_WIDTH, LABEL_HEIGHT);
-        label.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE));
-        label.setOpaque(false);
-        add(label);
-    }
-
-    private void setTextFieldSettings(JTextField textField, int y_scale) {
-        textField.setBounds(X_SCALE, y_scale, LABEL_WIDTH, LABEL_HEIGHT);
-        textField.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE));
-        textField.setForeground(Color.BLACK);
-        textField.setBackground(Color.ORANGE);
-        add(textField);
-    }
-
-    private void setButtonSettings(JButton button, int y_scale) {
-        button.setBounds(X_SCALE, y_scale, LABEL_WIDTH, LABEL_HEIGHT + 10);
-        button.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE));
-        button.setBackground(Color.GREEN);
-        button.setForeground(Color.WHITE);
-        button.setFocusPainted(false);
-        add(button);
-    }
-
     private void setLoginFunction(JButton loginButton, JTextField usernameTextField, JTextField passwordTextField) {
         loginButton.addActionListener(e -> {
             String username = usernameTextField.getText();
@@ -95,7 +67,7 @@ public class LoginPanel extends AbstractsUIElement implements UIComponent {
 
             // TODO: Add menu
             System.out.println("Da da stiga do tuka!");
-            //controller.showMainPanel();
+            controller.showMainPanel();
         });
     }
 }

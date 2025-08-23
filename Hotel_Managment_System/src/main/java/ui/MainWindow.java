@@ -1,5 +1,7 @@
 package ui;
 
+import ui.components.AbstractsUIElement;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
@@ -12,7 +14,7 @@ import static config.UIStyle.MAIN_WINDOW_WIDTH;
 public class MainWindow extends JFrame implements Window {
     private final CardLayout cardLayout;
     private final JPanel contentPanel;
-    private final Map<String, JPanel> registeredPanels;
+    private final Map<String, AbstractsUIElement> registeredPanels;
 
     public MainWindow() {
         cardLayout = new CardLayout();
@@ -23,17 +25,25 @@ public class MainWindow extends JFrame implements Window {
     }
 
     private void initCommonElements() {
-        setTitle("Hotel Manager System");
+        setTitle(APPLICATION_TITLE);
         setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setContentPane(contentPanel);
     }
 
+    // TODO: Add method who return registred panel
+
     @Override
-    public void registerPanel(String element, JPanel panel) {
+    public void registerPanel(String element, AbstractsUIElement panel) {
         if (registeredPanels.containsKey(element)) {
-            showPanel(element);
+            JOptionPane.showMessageDialog(
+                    this,
+                    EXISTED_PANEL,
+                    EXISTED_PANEL_TITLE,
+                    JOptionPane.ERROR_MESSAGE
+            );
+
             return;
         }
 
@@ -43,6 +53,26 @@ public class MainWindow extends JFrame implements Window {
 
     @Override
     public void showPanel(String panelName) {
+        if (isPanelExist(panelName)) return;
+
+        cardLayout.show(contentPanel, panelName);
+    }
+
+    @Override
+    public void replaceRegisteredPanel(String element, AbstractsUIElement uiComponent) {
+        if (isPanelExist(element)) return;
+
+        JPanel currentPanel = registeredPanels.get(element);
+        contentPanel.remove(currentPanel);
+
+        contentPanel.add(uiComponent);
+        registeredPanels.put(element, uiComponent);
+
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    private boolean isPanelExist(String panelName) {
         if (!registeredPanels.containsKey(panelName)) {
             JOptionPane.showMessageDialog(
                     this,
@@ -51,31 +81,9 @@ public class MainWindow extends JFrame implements Window {
                     JOptionPane.ERROR_MESSAGE
             );
 
-            return;
+            return true;
         }
 
-        cardLayout.show(contentPanel, panelName);
-    }
-
-    @Override
-    public void repaintPanel(String panelName, JPanel newPanel) {
-         if (!registeredPanels.containsKey(panelName)) {
-             JOptionPane.showMessageDialog(
-                     this,
-                     PANEL_NOT_FOUND_MESSAGE,
-                     NOT_FOUND_SUCH_PANEL,
-                     JOptionPane.ERROR_MESSAGE
-             );
-
-             return;
-         }
-
-         JPanel oldPanel = registeredPanels.get(panelName);
-         contentPanel.remove(oldPanel);
-
-         contentPanel.add(newPanel, panelName);
-         registeredPanels.put(panelName, newPanel);
-         contentPanel.revalidate();
-         contentPanel.repaint();
+        return false;
     }
 }

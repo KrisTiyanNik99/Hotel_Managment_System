@@ -5,15 +5,11 @@ import models.enums.UIElement;
 import services.managers.users.UserManager;
 
 import javax.swing.*;
-import java.awt.*;
 
 import static config.ConstantMessages.*;
 import static config.UIStyle.*;
-import static config.UIStyle.FONT_SIZE;
 
-public class RegisterPanel extends AbstractsUIElement implements UIComponent {
-    private static final int X_SCALE = 240;
-
+public class RegisterPanel extends AbstractsUIElement {
     private final UserManager userManager;
     private final UIController controller;
 
@@ -24,9 +20,8 @@ public class RegisterPanel extends AbstractsUIElement implements UIComponent {
         initComponents();
     }
 
-    private void initComponents() {
-        setBackground(Color.CYAN);
-
+    @Override
+    public void initComponents() {
         JLabel usernameLabel = new JLabel(USERNAME_TEXT_LABEL);
         setLabelSettings(usernameLabel, 110);
 
@@ -40,12 +35,7 @@ public class RegisterPanel extends AbstractsUIElement implements UIComponent {
         setTextFieldSettings(passwordTextField, 235);
 
         JButton registerButton = new JButton(REGISTRATION_TEXT_BUTTON);
-        registerButton.setBounds(X_SCALE, 295, LABEL_WIDTH, LABEL_HEIGHT + 10);
-        registerButton.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE));
-        registerButton.setBackground(Color.GREEN);
-        registerButton.setForeground(Color.WHITE);
-        registerButton.setFocusPainted(false);
-        add(registerButton);
+        setButtonSettings(registerButton, 295);
 
         setRegisterFunction(registerButton, usernameTextField, passwordTextField);
     }
@@ -53,21 +43,6 @@ public class RegisterPanel extends AbstractsUIElement implements UIComponent {
     @Override
     protected UIElement getElementType() {
         return UIElement.REGISTER;
-    }
-
-    private void setLabelSettings(JLabel label, int y_scale) {
-        label.setBounds(X_SCALE, y_scale, LABEL_WIDTH, LABEL_HEIGHT);
-        label.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE));
-        label.setOpaque(false);
-        add(label);
-    }
-
-    private void setTextFieldSettings(JTextField textField, int y_scale) {
-        textField.setBounds(X_SCALE, y_scale, LABEL_WIDTH, LABEL_HEIGHT);
-        textField.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE));
-        textField.setForeground(Color.BLACK);
-        textField.setBackground(Color.ORANGE);
-        add(textField);
     }
 
     private void setRegisterFunction(JButton registerButton, JTextField usernameTextField, JTextField passwordTextField) {

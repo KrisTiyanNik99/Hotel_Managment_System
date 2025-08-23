@@ -1,9 +1,9 @@
 package ui;
 
-import javax.swing.*;
+import ui.components.AbstractsUIElement;
 
 public interface Window {
-    void registerPanel(String element, JPanel panel);
+    void registerPanel(String element, AbstractsUIElement panel);
     void showPanel(String panelName);
-    void repaintPanel(String panelName, JPanel panel);
+    void replaceRegisteredPanel(String element, AbstractsUIElement uiComponent);
 }

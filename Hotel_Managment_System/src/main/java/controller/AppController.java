@@ -1,29 +1,57 @@
 package controller;
 
+import models.Reservation;
 import models.enums.UIElement;
+import models.room.Room;
+import models.room.RoomType;
+import models.user.User;
+import services.managers.bookings.BookingManager;
+import services.managers.bookings.BookingManagerImpl;
+import services.managers.room_types.RoomTypeManager;
+import services.managers.room_types.RoomTypeManagerImpl;
+import services.managers.rooms.RoomManager;
+import services.managers.rooms.RoomManagerImpl;
+import services.managers.users.UserManager;
+import services.managers.users.UserManagerImpl;
+import services.repos.*;
 import ui.Window;
-import ui.components.AbstractsUIElement;
-
-import javax.swing.*;
+import ui.components.*;
 
 public class AppController implements UIController {
-//    private LoginPanel loginPanel;
-//    private RegisterPanel registerPanel;
-
     private final Window mainWindow;
+
+    // Instances of all repository classes
+    private RepoService<Reservation> reservationRepo;
+    private RepoService<RoomType> roomTypeRepo;
+    private RepoService<Room> roomRepo;
+    private RepoService<User> userRepo;
+
+    // Instances of all manager classes that need a repository classes
+    private BookingManager bookingManager;
+    private RoomTypeManager roomTypeManager;
+    private RoomManager roomManager;
+    private UserManager userManager;
 
     public AppController(Window mainWindow) {
         this.mainWindow = mainWindow;
+
+        createRepositoryInstances();
     }
 
     @Override
-    public void registerComponents(AbstractsUIElement component) {
-//        if (compareUIComponentTypes(component, UIElement.LOGIN)){
-//            loginPanel = (LoginPanel) component;
-//        } else if (compareUIComponentTypes(component, UIElement.REGISTER)) {
-//            //registerPanel = (RegisterPanel) component;
-//        }
-        mainWindow.registerPanel(component.getType(), component);
+    public void registerComponents(UIElement component) {
+        AbstractsUIElement uiElement;
+        if (component.equals(UIElement.LOGIN)) {
+            uiElement = new LoginPanel(userManager, this);
+        } else if (component.equals(UIElement.REGISTER)) {
+            uiElement = new RegisterPanel(userManager, this);
+        } else if (component.equals(UIElement.MENU)) {
+            uiElement = new MenuPanel(bookingManager, roomTypeManager, roomManager, userManager);
+        } else {
+            throw new IllegalArgumentException();
+        }
+
+        mainWindow.registerPanel(uiElement.getType(), uiElement);
     }
 
     @Override
@@ -37,11 +65,25 @@ public class AppController implements UIController {
     }
 
     @Override
-    public void showMainPanel(JPanel jPanel) {
-        mainWindow.repaintPanel(UIElement.MENU.getTypeAsString(), jPanel);
+    public void showMainPanel(AbstractsUIElement userJPanel) {
+        String elementType = UIElement.MENU.getTypeAsString();
+        mainWindow.replaceRegisteredPanel(elementType, userJPanel);
+        mainWindow.showPanel(elementType);
     }
 
-//    private boolean compareUIComponentTypes(UIComponent component, UIElement uiElement) {
-//        return component.getType().equalsIgnoreCase(uiElement.getTypeAsString());
-//    }
+    @Override
+    public void createRepositoryInstances() {
+        userRepo = new UserRepoService(null);
+        reservationRepo = new BookingRepoService(null);
+        roomTypeRepo = new RoomTypeRepoService(null);
+        roomRepo = new RoomRepoService(null);
+    }
+
+    @Override
+    public void createManagerInstances() {
+        userManager = new UserManagerImpl(userRepo);
+        roomManager = new RoomManagerImpl(roomRepo);
+        roomTypeManager = new RoomTypeManagerImpl(roomTypeRepo);
+        bookingManager = new BookingManagerImpl(reservationRepo, roomManager);
+    }
 }

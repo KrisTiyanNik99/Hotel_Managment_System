@@ -50,4 +50,9 @@ public class UserManagerImpl implements UserManager {
 
         return user != null;
     }
+
+    @Override
+    public String getUsernameByUserId(Integer id) {
+        return userRepoService.findById(id).getUsername();
+    }
 }

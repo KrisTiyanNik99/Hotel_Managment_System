@@ -1,12 +1,13 @@
 package controller;
 
+import models.enums.UIElement;
 import ui.components.AbstractsUIElement;
 
-import javax.swing.*;
-
 public interface UIController {
-    void registerComponents(AbstractsUIElement component);
+    void registerComponents(UIElement component);
     void showLoginPanel();
     void showRegisterPanel();
-    void showMainPanel(JPanel jPanel);
+    void showMainPanel(AbstractsUIElement userJPanel);
+    void createRepositoryInstances();
+    void createManagerInstances();
 }
