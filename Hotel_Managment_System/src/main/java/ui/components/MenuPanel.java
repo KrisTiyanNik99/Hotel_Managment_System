@@ -1,5 +1,6 @@
 package ui.components;
 
+import controller.UIController;
 import models.enums.UIElement;
 import services.managers.bookings.BookingManager;
 import services.managers.room_types.RoomTypeManager;
@@ -12,7 +13,7 @@ import static config.ConstantMessages.*;
 
 public class MenuPanel extends UserUIElement {
     // UI Variables
-    //private static final int X_SCALE = ;
+    private static final int X_MENU_SCALE = 20;
 
     private final BookingManager reservations;
     private final RoomTypeManager roomTypeManager;
@@ -21,10 +22,12 @@ public class MenuPanel extends UserUIElement {
 
     private Integer userId;
 
-    // UI Components that will be changed when user is added!
     private JLabel userMessage;
 
-    public MenuPanel(BookingManager reservations, RoomTypeManager roomTypeManager, RoomManager roomManager, UserManager userManager) {
+    public MenuPanel(BookingManager reservations, RoomTypeManager roomTypeManager,
+                     RoomManager roomManager, UserManager userManager, UIController controller) {
+        super(controller);
+
         this.reservations = reservations;
         this.roomTypeManager = roomTypeManager;
         this.roomManager = roomManager;
@@ -36,13 +39,13 @@ public class MenuPanel extends UserUIElement {
     @Override
     public void initComponents() {
         userMessage = new JLabel();
-        setMenuLabelSettings(userMessage, X_SCALE - 140, 40);
+        setMenuLabelSettings(userMessage, X_MENU_SCALE, 10);
 
-
+        
     }
 
     @Override
-    public void setUserId(Integer userId) {
+    public void setUserById(Integer userId) {
         if (userId == null) {
             JOptionPane.showMessageDialog(
                     this,
@@ -52,12 +55,18 @@ public class MenuPanel extends UserUIElement {
         }
 
         this.userId = userId;
-        // TODO: Добави промени и тогава ревалидация!
-        userMessage.setText(String.format(HELLO_USER_MESSAGE, userManager.getUsernameByUserId(userId)));
 
-        //this.removeAll() - само ако искам да променя радикално иначе използвам само долните 2 метода;
+        updateComponents();
+
         this.revalidate();
         this.repaint();
+    }
+
+    private void updateComponents() {
+        userMessage.setText(String.format(HELLO_USER_MESSAGE,
+                userManager.getUsernameByUserId(userId)));
+
+        System.out.println("Label text: " + userMessage.getText());
     }
 
     @Override

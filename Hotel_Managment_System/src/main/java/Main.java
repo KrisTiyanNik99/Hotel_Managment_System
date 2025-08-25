@@ -1,4 +1,5 @@
 import controller.AppController;
+import models.enums.UIElement;
 import ui.MainWindow;
 
 public class Main {
@@ -6,12 +7,12 @@ public class Main {
         MainWindow mw = new MainWindow();
         AppController ap = new AppController(mw);
 
-        ap.registerComponents(loginPanel);
-        ap.registerComponents(registerPanel);
-        ap.registerComponents(menuPanel);
+        ap.registerComponents(UIElement.LOGIN);
+        ap.registerComponents(UIElement.REGISTER);
+        ap.registerComponents(UIElement.MENU);
 
-        //ap.showLoginPanel();
-        ap.showMainPanel(menuPanel);
+        ap.showLoginPanel();
+        //ap.showMainPanel();
         mw.setVisible(true);
     }
 }

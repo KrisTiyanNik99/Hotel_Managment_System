@@ -9,7 +9,8 @@ public class UIStyle {
     public static final String PASSWORD_TEXT_LABEL = "Password";
     public static final String USERNAME_TEXT_LABEL = "Username";
     public static final String LOGIN_TEXT_BUTTON = "Login";
-    public static final String REGISTRATION_TEXT_BUTTON = "To Login";
+    public static final String REGISTRATION_TEXT_BUTTON = "Register User!";
+    public static final String TO_LOGIN_TEXT = "Back to login!";
     public static final String REGISTER_TEXT_BUTTON = "Register";
 
     public static final String ARIEL_STYLE = "Ariel";

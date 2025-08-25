@@ -1,5 +1,6 @@
 package ui.components;
 
+import controller.UIController;
 import models.enums.UIElement;
 
 import javax.swing.*;
@@ -13,7 +14,11 @@ public abstract class AbstractsUIElement extends JPanel implements UIComponent {
 
     private final UIElement elementType = getElementType();
 
-    protected AbstractsUIElement() {
+    protected final UIController controller;
+
+    protected AbstractsUIElement(UIController controller) {
+        this.controller = controller;
+
         setLayout(null);
         setBackground(Color.CYAN);
     }

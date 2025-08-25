@@ -36,6 +36,7 @@ public class AppController implements UIController {
         this.mainWindow = mainWindow;
 
         createRepositoryInstances();
+        createManagerInstances();
     }
 
     @Override
@@ -46,7 +47,8 @@ public class AppController implements UIController {
         } else if (component.equals(UIElement.REGISTER)) {
             uiElement = new RegisterPanel(userManager, this);
         } else if (component.equals(UIElement.MENU)) {
-            uiElement = new MenuPanel(bookingManager, roomTypeManager, roomManager, userManager);
+            uiElement = new MenuPanel(bookingManager, roomTypeManager,
+                    roomManager, userManager, this);
         } else {
             throw new IllegalArgumentException();
         }
@@ -65,10 +67,13 @@ public class AppController implements UIController {
     }
 
     @Override
-    public void showMainPanel(AbstractsUIElement userJPanel) {
-        String elementType = UIElement.MENU.getTypeAsString();
-        mainWindow.replaceRegisteredPanel(elementType, userJPanel);
-        mainWindow.showPanel(elementType);
+    public void showMainPanel(Integer userId) {
+        UserUIElement userUIElement = new MenuPanel(
+                bookingManager, roomTypeManager, roomManager, userManager, this);
+        userUIElement.setUserById(userId);
+
+        mainWindow.replacePanel(UIElement.MENU.getTypeAsString(), userUIElement);
+        mainWindow.showPanel(userUIElement.getType());
     }
 
     @Override

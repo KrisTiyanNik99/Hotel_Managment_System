@@ -14,7 +14,7 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public User register(String username, String password) throws Exception {
+    public User register(String username, String password) {
         // Тук може да сложим хешираща функция на паролата, но засега е добре така!
         int userId = userRepoService.generateNextId();
 

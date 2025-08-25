@@ -5,7 +5,6 @@ import models.enums.UIElement;
 import services.managers.users.UserManager;
 
 import javax.swing.*;
-import java.awt.*;
 
 import static config.ConstantMessages.USERNAME_PASSWORD_CANNOT_EMPTY;
 import static config.ConstantMessages.USER_DOES_NOT_EXIST;
@@ -13,11 +12,10 @@ import static config.UIStyle.*;
 
 public class LoginPanel extends AbstractsUIElement implements UIComponent {
     private final UserManager userManager;
-    private final UIController controller;
 
     public LoginPanel(UserManager userManager, UIController controller) {
+        super(controller);
         this.userManager = userManager;
-        this.controller = controller;
 
         initComponents();
     }
@@ -41,9 +39,7 @@ public class LoginPanel extends AbstractsUIElement implements UIComponent {
         setLoginFunction(loginButton, usernameTextField, passwordTextField);
 
         JButton registerButton = new JButton(REGISTER_TEXT_BUTTON);
-        registerButton.addActionListener(e -> {
-            controller.showRegisterPanel();
-        });
+        registerButton.addActionListener(e -> controller.showRegisterPanel());
         setButtonSettings(registerButton, 345);
     }
 
@@ -65,9 +61,7 @@ public class LoginPanel extends AbstractsUIElement implements UIComponent {
                 throw new NullPointerException(USER_DOES_NOT_EXIST);
             }
 
-            // TODO: Add menu
-            System.out.println("Da da stiga do tuka!");
-            controller.showMainPanel();
+            controller.showMainPanel(userId);
         });
     }
 }

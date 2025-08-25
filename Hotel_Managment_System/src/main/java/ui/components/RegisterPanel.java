@@ -11,11 +11,10 @@ import static config.UIStyle.*;
 
 public class RegisterPanel extends AbstractsUIElement {
     private final UserManager userManager;
-    private final UIController controller;
 
     public RegisterPanel(UserManager userManager, UIController controller) {
+        super(controller);
         this.userManager = userManager;
-        this.controller = controller;
 
         initComponents();
     }
@@ -37,6 +36,10 @@ public class RegisterPanel extends AbstractsUIElement {
         JButton registerButton = new JButton(REGISTRATION_TEXT_BUTTON);
         setButtonSettings(registerButton, 295);
 
+        JButton toLoginButton = new JButton(TO_LOGIN_TEXT);
+        setButtonSettings(toLoginButton, 355);
+        toLoginButton.addActionListener(e -> controller.showLoginPanel());
+
         setRegisterFunction(registerButton, usernameTextField, passwordTextField);
     }
 
@@ -49,25 +52,7 @@ public class RegisterPanel extends AbstractsUIElement {
         registerButton.addActionListener(e -> {
             String username = usernameTextField.getText();
             String password = passwordTextField.getText();
-            if ((username.isEmpty() || username.isBlank()) || (password.isEmpty() || password.isBlank())) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        USERNAME_PASSWORD_CANNOT_EMPTY,
-                        EMPTY_FIELDS,
-                        JOptionPane.ERROR_MESSAGE);
-
-                return;
-            }
-
-            if (userManager.isUserExist(username, password)) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        USER_ALREADY_EXIST,
-                        EXISTED_USER,
-                        JOptionPane.ERROR_MESSAGE);
-
-                return;
-            }
+            if (fieldsValidations(username, password)) return;
 
             try {
                 userManager.register(username, password);
@@ -88,5 +73,29 @@ public class RegisterPanel extends AbstractsUIElement {
                 );
             }
         });
+    }
+
+    private boolean fieldsValidations(String username, String password) {
+        if ((username.isEmpty() || username.isBlank()) || (password.isEmpty() || password.isBlank())) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    USERNAME_PASSWORD_CANNOT_EMPTY,
+                    EMPTY_FIELDS,
+                    JOptionPane.ERROR_MESSAGE);
+
+            return true;
+        }
+
+        if (userManager.isUserExist(username, password)) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    USER_ALREADY_EXIST,
+                    EXISTED_USER,
+                    JOptionPane.ERROR_MESSAGE);
+
+            return true;
+        }
+
+        return false;
     }
 }

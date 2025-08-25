@@ -59,13 +59,13 @@ public class MainWindow extends JFrame implements Window {
     }
 
     @Override
-    public void replaceRegisteredPanel(String element, AbstractsUIElement uiComponent) {
+    public void replacePanel(String element, AbstractsUIElement uiComponent) {
         if (isPanelExist(element)) return;
 
         JPanel currentPanel = registeredPanels.get(element);
         contentPanel.remove(currentPanel);
 
-        contentPanel.add(uiComponent);
+        contentPanel.add(uiComponent, element);
         registeredPanels.put(element, uiComponent);
 
         contentPanel.revalidate();
