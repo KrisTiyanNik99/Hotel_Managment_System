@@ -53,6 +53,11 @@ public class RoomTypeImpl implements RoomType {
 
     @Override
     public String toString() {
+        return String.format("This is %s room", name);
+    }
+
+    @Override
+    public String textFormat() {
         return String.format("No:%d; Name:%s; Amenities:%s; Maximum Occupancy:%d;%n",
                 id,
                 name,

@@ -1,15 +1,20 @@
 package ui.components;
 
 import controller.UIController;
+import func.getter_funcs.RoomDataProvider;
 import models.enums.UIElement;
+import models.room.RoomType;
 import services.managers.bookings.BookingManager;
 import services.managers.room_types.RoomTypeManager;
-import services.managers.rooms.RoomManager;
 import services.managers.users.UserManager;
 
 import javax.swing.*;
 
+import java.util.List;
+
 import static config.ConstantMessages.*;
+import static config.UIStyle.LABEL_HEIGHT;
+import static config.UIStyle.LABEL_WIDTH;
 
 public class MenuPanel extends UserUIElement {
     // UI Variables
@@ -17,15 +22,16 @@ public class MenuPanel extends UserUIElement {
 
     private final BookingManager reservations;
     private final RoomTypeManager roomTypeManager;
-    private final RoomManager roomManager;
+    private final RoomDataProvider roomManager;
     private final UserManager userManager;
 
     private Integer userId;
 
     private JLabel userMessage;
+    private JList<RoomType> roomTypeJList;
 
     public MenuPanel(BookingManager reservations, RoomTypeManager roomTypeManager,
-                     RoomManager roomManager, UserManager userManager, UIController controller) {
+                     RoomDataProvider roomManager, UserManager userManager, UIController controller) {
         super(controller);
 
         this.reservations = reservations;
@@ -41,7 +47,19 @@ public class MenuPanel extends UserUIElement {
         userMessage = new JLabel();
         setMenuLabelSettings(userMessage, X_MENU_SCALE, 10);
 
-        
+        JLabel roomsScrollBarTitle = new JLabel(AVAILABLE_ROOM_TITLE);
+        setMenuLabelSettings(roomsScrollBarTitle, X_MENU_SCALE, 100);
+
+        addDataToScrollPane();
+
+        JScrollPane roomTypeScrollPane = new JScrollPane(roomTypeJList);
+        roomTypeScrollPane.setBounds(X_MENU_SCALE, 140, LABEL_WIDTH, LABEL_HEIGHT + LABEL_HEIGHT);
+        add(roomTypeScrollPane);
+
+
+        JScrollPane roomScrollPane = new JScrollPane();
+        roomScrollPane.setBounds(500,140, LABEL_WIDTH, LABEL_HEIGHT + LABEL_HEIGHT);
+        add(roomScrollPane);
     }
 
     @Override
@@ -62,6 +80,11 @@ public class MenuPanel extends UserUIElement {
         this.repaint();
     }
 
+    @Override
+    protected UIElement getElementType() {
+        return UIElement.MENU;
+    }
+
     private void updateComponents() {
         userMessage.setText(String.format(HELLO_USER_MESSAGE,
                 userManager.getUsernameByUserId(userId)));
@@ -69,8 +92,9 @@ public class MenuPanel extends UserUIElement {
         System.out.println("Label text: " + userMessage.getText());
     }
 
-    @Override
-    protected UIElement getElementType() {
-        return UIElement.MENU;
+    private void addDataToScrollPane() {
+        List<RoomType> roomTypes = roomTypeManager.getAll();
+        roomTypeJList = new JList<>(roomTypes.toArray(new RoomType[0]));
+        roomTypeJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 }

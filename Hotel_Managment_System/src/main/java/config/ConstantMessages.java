@@ -18,4 +18,5 @@ public class ConstantMessages {
     public static final String HELLO_USER_MESSAGE = "Hello %s we are glad to see you again!";
     public static final String EXISTED_PANEL = "Such panel already exist!";
     public static final String EXISTED_PANEL_TITLE = "Existed Panel";
+    public static final String AVAILABLE_ROOM_TITLE = "List of all available rooms";
 }

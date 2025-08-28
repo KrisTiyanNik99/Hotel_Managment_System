@@ -28,6 +28,11 @@ public class UserImpl implements User {
 
     @Override
     public String toString() {
+       return String.format("This is %s user", username);
+    }
+
+    @Override
+    public String textFormat() {
         return String.format("No:%d; Name:%s; Password:%s;%n",
                 id,
                 username,

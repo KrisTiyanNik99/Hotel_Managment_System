@@ -25,6 +25,11 @@ public final class Reservation implements Identifiable {
 
     @Override
     public String toString() {
+        return String.format("Reservation to for %s to %s", arrivalData, departureDate);
+    }
+
+    @Override
+    public String textFormat() {
         return String.format("No:%d; UserID:%d; RoomID:%d; Arrival Data:%s; Departure Data:%s; Is canceled:%s;%n",
                 id,
                 userId,

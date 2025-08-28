@@ -101,10 +101,9 @@ public abstract class RepoService<T extends Identifiable> implements ObjectProvi
     }
 
     protected void persistToFile() {
-        // Това бих го сложил в отделен thread, но засега става и така!
         try (PrintWriter writer = new PrintWriter(Configurations.FILE_ROOT_PATH + repositoryFileName)) {
             for (T currRoom : entityMap.values()) {
-                writer.print(currRoom);
+                writer.print(currRoom.textFormat());
             }
         } catch (Exception e) {
             throw new RuntimeException("Error while writing to file: " + Configurations.FILE_ROOT_PATH + repositoryFileName, e);

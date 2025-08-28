@@ -6,7 +6,7 @@ import services.repos.RepoService;
 
 import java.util.List;
 
-public class RoomTypeManagerImpl implements RoomTypeManager{
+public class RoomTypeManagerImpl implements RoomTypeManager {
     private final RepoService<RoomType> roomTypeRepository;
 
     public RoomTypeManagerImpl(RepoService<RoomType> roomTypeRepoService) {

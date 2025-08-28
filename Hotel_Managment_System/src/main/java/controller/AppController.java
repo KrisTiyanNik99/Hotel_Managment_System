@@ -69,7 +69,11 @@ public class AppController implements UIController {
     @Override
     public void showMainPanel(Integer userId) {
         UserUIElement userUIElement = new MenuPanel(
-                bookingManager, roomTypeManager, roomManager, userManager, this);
+                bookingManager,
+                roomTypeManager,
+                roomManager,
+                userManager,
+                this);
         userUIElement.setUserById(userId);
 
         mainWindow.replacePanel(UIElement.MENU.getTypeAsString(), userUIElement);

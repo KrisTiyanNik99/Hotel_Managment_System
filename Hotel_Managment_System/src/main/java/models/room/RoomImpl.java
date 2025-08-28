@@ -67,6 +67,11 @@ public class RoomImpl implements Room {
 
     @Override
     public String toString() {
+        return String.format("This is room %d, %.2f per night", roomNumber, pricePerNight);
+    }
+
+    @Override
+    public String textFormat() {
         return String.format("No:%d; TypeID:%d; Price per night:%.2f; Cancellation Fee:%.2f; Room Status:%s;%n",
                 roomNumber,
                 roomTypeId,
