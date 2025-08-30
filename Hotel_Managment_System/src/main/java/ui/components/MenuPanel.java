@@ -72,14 +72,14 @@ public class MenuPanel extends UserUIElement {
         });
 
         JLabel roomScrollBar = new JLabel(AVAILABLE_ROOM_TITLE);
-        setMenuLabelSettings(roomScrollBar, X_MENU_SCALE + 410, Y_MENU_SCALE);
+        setMenuLabelSettings(roomScrollBar, X_MENU_SCALE + 440, Y_MENU_SCALE);
 
         JScrollPane roomScrollPane = new JScrollPane(roomJList);
-        roomScrollPane.setBounds(430,140, LABEL_WIDTH, LABEL_HEIGHT + LABEL_HEIGHT);
+        roomScrollPane.setBounds(X_MENU_SCALE + 440,140, LABEL_WIDTH, LABEL_HEIGHT + LABEL_HEIGHT);
         add(roomScrollPane);
 
         JButton conformRoomButton = new JButton(CONFIRM_ROOM);
-        setMenuButtonSettings(conformRoomButton, X_MENU_SCALE + 410, Y_MENU_SCALE + Y_MENU_SCALE + 30);
+        setMenuButtonSettings(conformRoomButton, X_MENU_SCALE + 440, Y_MENU_SCALE + Y_MENU_SCALE + 30);
         conformRoomButton.addActionListener(e -> {
             // TODO: Добави функция за отваряне на диалогов прозорец за датите с които ще се създаде резервация!
         });
@@ -87,12 +87,12 @@ public class MenuPanel extends UserUIElement {
         // TODO: Да се добави история на резервациите, както и опция да се премахне резервация!
 
         JButton reservationButton = new JButton(RESERVATION_TITLE);
-        setMenuButtonSettings(reservationButton, X_MENU_SCALE, Y_MENU_SCALE * 4);
+        setMenuButtonSettings(reservationButton, X_MENU_SCALE, (Y_MENU_SCALE * 4) + 90);
         // TODO: Да излиза диалогов прозорец, който да показва пълната информация на резервацията, която ще бъде направена и
         //  чак тогава чрез потвърждение да се направи!
 
         JButton toLoginButton = new JButton(TO_LOGIN_TEXT);
-        setMenuButtonSettings(toLoginButton, X_MENU_SCALE + 410, Y_MENU_SCALE * 4);
+        setMenuButtonSettings(toLoginButton, X_MENU_SCALE + 440, (Y_MENU_SCALE * 4) + 90);
         toLoginButton.addActionListener(e -> controller.showLoginPanel());
     }
 
