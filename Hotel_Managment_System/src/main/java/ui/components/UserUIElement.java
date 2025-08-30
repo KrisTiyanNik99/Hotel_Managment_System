@@ -23,6 +23,15 @@ public abstract class UserUIElement extends AbstractsUIElement {
         add(label);
     }
 
+    protected void setMenuButtonSettings(JButton button, int x_scale, int y_scale) {
+        button.setBounds(x_scale,y_scale, LABEL_WIDTH, LABEL_HEIGHT);
+        button.setBackground(Color.CYAN);
+        button.setForeground(Color.BLACK);
+        button.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE));
+        button.setFocusPainted(false);
+        add(button);
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

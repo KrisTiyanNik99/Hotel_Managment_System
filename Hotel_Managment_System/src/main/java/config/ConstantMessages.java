@@ -18,5 +18,9 @@ public class ConstantMessages {
     public static final String HELLO_USER_MESSAGE = "Hello %s we are glad to see you again!";
     public static final String EXISTED_PANEL = "Such panel already exist!";
     public static final String EXISTED_PANEL_TITLE = "Existed Panel";
-    public static final String AVAILABLE_ROOM_TITLE = "List of all available rooms";
+    public static final String AVAILABLE_TYPE_ROOM_TITLE = "List of all available room types.";
+    public static final String AVAILABLE_ROOM_TITLE = "List of all available room.";
+    public static final String CONFIRM_ROOM_TYPE = "Confirm room type";
+    public static final String CONFIRM_ROOM = "Confirm your room";
+    public static final String RESERVATION_TITLE = "Make reservation";
 }
