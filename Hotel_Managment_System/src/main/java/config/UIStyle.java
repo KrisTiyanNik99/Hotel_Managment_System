@@ -12,6 +12,13 @@ public class UIStyle {
     public static final String REGISTRATION_TEXT_BUTTON = "Register User!";
     public static final String TO_LOGIN_TEXT = "Back to login!";
     public static final String REGISTER_TEXT_BUTTON = "Register";
+    public static final String CONFIRM_DATE = "Confirm your dates!";
+    public static final String CONFIRM_ROOM_TYPE = "Confirm room type";
+    public static final String RESERVATION_TITLE = "Make reservation";
+    public static final String DATE_CHOOSER_TITLE = "Choose you dates";
+    public static final String FROM_DATE = "From:";
+    public static final String OK_TITLE = "OK";
+    public static final int GAP = 10;
 
     public static final String ARIEL_STYLE = "Ariel";
     public static final int LABEL_WIDTH = 300;

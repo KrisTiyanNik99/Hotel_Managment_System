@@ -32,10 +32,5 @@ public abstract class UserUIElement extends AbstractsUIElement {
         add(button);
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-    }
-
     public abstract void setUserById(Integer userId);
 }

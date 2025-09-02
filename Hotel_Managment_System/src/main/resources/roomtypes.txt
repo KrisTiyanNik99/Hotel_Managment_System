@@ -3,6 +3,3 @@ No:3; Name:Single; Amenities:Single bed, Desk, Air conditioning, Flat-screen TV,
 No:5; Name:Suite; Amenities:Private check-in, Personal butler, Premium minibar, Smart TV, Jacuzzi, Terrace with view, Complimentary breakfast, Soundproofing; Maximum Occupancy:2;
 No:8; Name:Delux; Amenities:Two floors, Spiral staircase, Living room, Kitchenette, Two bathrooms, Balcony with view, Flat-screen TVs, Free Wi-Fi; Maximum Occupancy:3;
 No:9; Name:Test; Amenities:test1, test2, test3; Maximum Occupancy:4;
-No:10; Name:Testt; Amenities:test3, test4, test6; Maximum Occupancy:5;
-No:11; Name:Test1; Amenities:test2, test3, test4; Maximum Occupancy:6;
-No:12; Name:Test3; Amenities:test7, test8, test9; Maximum Occupancy:10;
