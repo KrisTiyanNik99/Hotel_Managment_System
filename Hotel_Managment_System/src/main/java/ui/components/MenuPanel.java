@@ -3,6 +3,7 @@ package ui.components;
 import com.toedter.calendar.JDateChooser;
 import controller.UIController;
 import func.getter_funcs.RoomDataProvider;
+import models.Reservation;
 import models.enums.UIElement;
 import models.room.Room;
 import models.room.RoomType;
@@ -15,7 +16,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -23,19 +23,22 @@ import static config.ConstantMessages.*;
 import static config.UIStyle.*;
 
 public class MenuPanel extends UserUIElement {
-    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(DATE_FORMAT);
     private static final int X_MENU_SCALE = 20;
     private static final int Y_MENU_SCALE = 100;
 
-    private final BookingManager reservations;
+    private final BookingManager reservationManager;
     private final RoomTypeManager roomTypeManager;
     private final RoomDataProvider roomManager;
     private final UserManager userManager;
     private final Window parentWindow;
+    private final JList<Reservation> reservationJList;
+    private final DefaultListModel<Reservation> reservationsHistory;
+
 
     private Integer userId;
     private LocalDate arrivalDate;
     private LocalDate checkOutDate;
+    private Reservation reservation;
 
     private JDialog dateDialog;
     private JLabel userMessage;
@@ -46,12 +49,14 @@ public class MenuPanel extends UserUIElement {
                      RoomDataProvider roomManager, UserManager userManager, UIController controller) {
         super(controller);
 
-        this.reservations = reservations;
+        this.reservationManager = reservations;
         this.roomTypeManager = roomTypeManager;
         this.roomManager = roomManager;
         this.userManager = userManager;
 
         parentWindow = SwingUtilities.getWindowAncestor(this);
+        reservationsHistory = new DefaultListModel<>();
+        reservationJList = new JList<>(reservationsHistory);
 
         initComponents();
     }
@@ -79,17 +84,23 @@ public class MenuPanel extends UserUIElement {
         setMenuLabelSettings(roomOptionMenuTitle, X_MENU_SCALE + 440, Y_MENU_SCALE);
 
         roomComboBox = new JComboBox<>();
-        roomComboBox.setBounds(X_MENU_SCALE + 440,140, LABEL_WIDTH, LABEL_HEIGHT);
+        roomComboBox.setBounds(X_MENU_SCALE + 440, 140, LABEL_WIDTH, LABEL_HEIGHT);
         roomComboBox.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE - 2));
         add(roomComboBox);
 
         JButton confirmDatesButton = new JButton(CONFIRM_DATE);
         setMenuButtonSettings(confirmDatesButton, X_MENU_SCALE + 440, Y_MENU_SCALE + Y_MENU_SCALE);
         initDateDialog();
-        // TODO: Добави функция за отваряне на диалогов прозорец за датите с които ще се създаде резервация!
-        confirmDatesButton.addActionListener(e -> showDateDialog() );
+        confirmDatesButton.addActionListener(e -> dateDialog.setVisible(true));
 
-        // TODO: Да се добави история на резервациите, както и опция да се премахне резервация!
+        JScrollPane bookingHistory = new JScrollPane(reservationJList);
+        bookingHistory.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE));
+        bookingHistory.setBounds(X_MENU_SCALE, 260, LABEL_WIDTH + LABEL_WIDTH + 143, LABEL_HEIGHT + 90);
+        add(bookingHistory);
+
+        JButton cancelReservationButton = new JButton(CANCEL_RESERVATION);
+        setMenuButtonSettings(cancelReservationButton, X_MENU_SCALE + 220, 400);
+        cancelReservationButton.addActionListener( e -> cancelReservation());
 
         JButton reservationButton = new JButton(RESERVATION_TITLE);
         setMenuButtonSettings(reservationButton, X_MENU_SCALE, (Y_MENU_SCALE * 4) + 90);
@@ -129,16 +140,36 @@ public class MenuPanel extends UserUIElement {
         userMessage.setText(String.format(HELLO_USER_MESSAGE,
                 userManager.getUsernameByUserId(userId)));
 
+        updateUserBookingHistory();
         // TODO: Обновяване на нещата.....
+    }
+
+    private void updateUserBookingHistory() {
+        reservationsHistory.clear();
+        reservationManager.getAllUserBookingHistory(userId).forEach(reservationsHistory::addElement);
+
+        reservationJList.revalidate();
+        reservationJList.repaint();
+    }
+
+    private void cancelReservation() {
+        Reservation reservation = reservationJList.getSelectedValue();
+        if (reservation == null) {
+            JOptionPane.showMessageDialog(this, SELECT_RESERVATION,
+                    NO_RESERVATION_SELECT, JOptionPane.ERROR_MESSAGE);
+
+            return;
+        }
+
+        reservationManager.cancelReservation(reservation.getId());
+        updateUserBookingHistory();
     }
 
     private void addRoomTypeDataToJList() {
         List<RoomType> roomTypeList = roomTypeManager.getAll();
         roomTypeComboBox.removeAllItems();
 
-        for (RoomType roomType : roomTypeList) {
-            roomTypeComboBox.addItem(roomType);
-        }
+        roomTypeList.forEach(e -> roomTypeComboBox.addItem(e));
     }
 
     private void initDateDialog() {
@@ -150,49 +181,51 @@ public class MenuPanel extends UserUIElement {
         dateDialog.setSize(400, 400);
         dateDialog.setLocationRelativeTo(parentWindow);
 
-        JPanel mainLayout = new JPanel(new GridLayout(3,2,GAP,GAP));
+        JPanel mainLayout = new JPanel(new GridLayout(4, 2, GAP, GAP));
         mainLayout.add(new JLabel(FROM_DATE));
 
         JDateChooser fromChooser = new JDateChooser();
         fromChooser.setDateFormatString(DATE_FORMAT);
         mainLayout.add(fromChooser);
 
+        mainLayout.add(new JLabel(TO_DATE));
         JDateChooser toChooser = new JDateChooser();
         toChooser.setDateFormatString(DATE_FORMAT);
         mainLayout.add(toChooser);
 
         JButton okButton = new JButton(OK_TITLE);
-        okButton.addActionListener(e -> {
-            String t1 = fromChooser.getDate().toString();
-            String t2 = toChooser.getDate().toString();
-
-            System.out.println(t1);
-            System.out.println(t2);
-            //arrivalDate = fromChooser.getDate();
-            //checkOutDate = toChooser.getDate();
-
-            if (arrivalDate == null || checkOutDate == null) {
-                JOptionPane.showMessageDialog(
-                        dateDialog,
-                        CHOOSE_DATES,
-                        CALENDAR,
-                        JOptionPane.ERROR_MESSAGE);
-
-                return;
-            }
-        });
+        okButton.setFocusPainted(false);
+        okButton.setBackground(Color.WHITE);
+        okButton.setForeground(Color.BLACK);
+        okButton.addActionListener(e -> confirmReservationDates(fromChooser, toChooser));
+        mainLayout.add(okButton);
 
         dateDialog.add(mainLayout);
+    }
+
+    private void confirmReservationDates(JDateChooser fromChooser, JDateChooser toChooser) {
+        Date fromDate = fromChooser.getDate();
+        Date toDate = toChooser.getDate();
+
+        if (fromDate == null || toDate == null) {
+            JOptionPane.showMessageDialog(dateDialog, CHOOSE_DATES, CALENDAR, JOptionPane.ERROR_MESSAGE);
+
+            return;
+        }
+
+        arrivalDate = fromDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        checkOutDate = toDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        JOptionPane.showMessageDialog(dateDialog, String.format(CHOOSE_DAYS, arrivalDate, checkOutDate),
+                CHOOSE_DAYS_TITLE, JOptionPane.INFORMATION_MESSAGE);
+        dateDialog.dispose();
     }
 
     private void showValidRooms() {
         RoomType selectedRoomType = (RoomType) roomTypeComboBox.getSelectedItem();
         if (selectedRoomType == null) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    NO_SELECTED_ROOM_TYPE,
-                    NO_SELECTED,
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, NO_SELECTED_ROOM_TYPE,
+                    NO_SELECTED, JOptionPane.ERROR_MESSAGE);
 
             return;
         }
@@ -200,22 +233,12 @@ public class MenuPanel extends UserUIElement {
         List<Room> availableRoomsByType = roomManager.getAllAvailableRoomsByType(selectedRoomType);
         roomComboBox.removeAllItems();
         if (availableRoomsByType.isEmpty()) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    NO_AVAILABLE_ROOMS_TEXT,
-                    NO_AVAILABLE_ROOMS_TITLE,
-                    JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, NO_AVAILABLE_ROOMS_TEXT,
+                    NO_AVAILABLE_ROOMS_TITLE, JOptionPane.INFORMATION_MESSAGE);
 
             return;
         }
 
-        for (Room room : availableRoomsByType) {
-            System.out.println(room);
-            roomComboBox.addItem(room);
-        }
-    }
-
-    private void showDateDialog() {
-        dateDialog.setVisible(true);
+        availableRoomsByType.forEach(e -> roomComboBox.addItem(e));
     }
 }

@@ -52,6 +52,7 @@ public class BookingManagerImpl implements BookingManager {
         return bookingRepo.findAll()
                 .stream()
                 .filter(e -> userId.equals(e.getUserId()))
+                .filter(e -> !e.isCanceled())
                 .toList();
     }
 

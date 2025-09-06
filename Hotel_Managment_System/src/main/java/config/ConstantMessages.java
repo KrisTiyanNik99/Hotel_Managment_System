@@ -25,6 +25,10 @@ public class ConstantMessages {
     public static final String UNSUCCESSFULLY_REGISTRATION = "Unsuccessfully registration: ";
     public static final String UNSUCCESSFULLY_TITLE = "Failed. Please try again!";
     public static final String CHOOSE_DATES = "Choose arrival date and check out!";
+    public static final String CHOOSE_DAYS_TITLE = "You dates choose";
+    public static final String CHOOSE_DAYS = "Your dates are: from %s to %s";
     public static final String CALENDAR = "Calendar";
     public static final String DATE_FORMAT = "dd-MM-yyyy";
+    public static final String SELECT_RESERVATION = "Select reservation first!";
+    public static final String NO_RESERVATION_SELECT = "No reservation is selected";
 }

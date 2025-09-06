@@ -17,8 +17,11 @@ public class UIStyle {
     public static final String RESERVATION_TITLE = "Make reservation";
     public static final String DATE_CHOOSER_TITLE = "Choose you dates";
     public static final String FROM_DATE = "From:";
+    public static final String TO_DATE = "To:";
     public static final String OK_TITLE = "OK";
-    public static final int GAP = 10;
+    public static final String CANCEL_RESERVATION = "Cancel reservation";
+
+    public static final int GAP = 8;
 
     public static final String ARIEL_STYLE = "Ariel";
     public static final int LABEL_WIDTH = 300;
