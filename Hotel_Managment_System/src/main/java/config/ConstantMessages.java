@@ -31,4 +31,10 @@ public class ConstantMessages {
     public static final String DATE_FORMAT = "dd-MM-yyyy";
     public static final String SELECT_RESERVATION = "Select reservation first!";
     public static final String NO_RESERVATION_SELECT = "No reservation is selected";
+    public static final String RESERVATION_USER_TITLE_DIALOG = "Your reservation is for: %s";
+    public static final String RESERVED_ROOM_NUMBER_TITLE_DIALOG = "Your room is: %d";
+    public static final String RESERVATION_FROM_DATE_TITLE_DIALOG = "Your reservation is from: %s";
+    public static final String RESERVATION_TO_DATE_TITLE_DIALOG = "You can stay to: %s";
+    public static final String NO_ROOM_SELECTED_TITLE = "Room is not selected";
+    public static final String NO_ROOM_SELECTED = "Cannot make reservation. Room is not selected";
 }

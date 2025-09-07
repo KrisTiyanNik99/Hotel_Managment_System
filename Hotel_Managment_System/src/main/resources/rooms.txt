@@ -1,7 +1,7 @@
-No:1; TypeID:5; Price per night:34,45; Cancellation Fee:45,67; Room Status:AVAILABLE;
-No:3; TypeID:5; Price per night:55,45; Cancellation Fee:9,99; Room Status:AVAILABLE;
-No:4; TypeID:8; Price per night:80,45; Cancellation Fee:77,67; Room Status:AVAILABLE;
-No:5; TypeID:3; Price per night:9,99; Cancellation Fee:44,67; Room Status:AVAILABLE;
+No:1; TypeID:5; Price per night:34,45; Cancellation Fee:45,67; Room Status:BOOKED;
+No:3; TypeID:5; Price per night:55,45; Cancellation Fee:9,99; Room Status:BOOKED;
+No:4; TypeID:8; Price per night:80,45; Cancellation Fee:77,67; Room Status:BOOKED;
+No:5; TypeID:3; Price per night:9,99; Cancellation Fee:44,67; Room Status:BOOKED;
 No:40; TypeID:1; Price per night:13,99; Cancellation Fee:9,99; Room Status:AVAILABLE;
 No:45; TypeID:5; Price per night:888,88; Cancellation Fee:333,33; Room Status:BOOKED;
 No:47; TypeID:5; Price per night:777,77; Cancellation Fee:333,33; Room Status:BOOKED;

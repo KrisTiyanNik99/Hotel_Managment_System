@@ -16,15 +16,19 @@ public class UIStyle {
     public static final String CONFIRM_ROOM_TYPE = "Confirm room type";
     public static final String RESERVATION_TITLE = "Make reservation";
     public static final String DATE_CHOOSER_TITLE = "Choose you dates";
+    public static final String RESERVATION_DIALOG_TITLE = "Your reservation:";
+    public static final String CONFIRM_RESERVATION = "Confirm reservation";
     public static final String FROM_DATE = "From:";
     public static final String TO_DATE = "To:";
     public static final String OK_TITLE = "OK";
     public static final String CANCEL_RESERVATION = "Cancel reservation";
 
+    // Elements size and styles
     public static final int GAP = 8;
 
     public static final String ARIEL_STYLE = "Ariel";
     public static final int LABEL_WIDTH = 300;
     public static final int LABEL_HEIGHT = 40;
     public static final int FONT_SIZE = 20;
+    public static final int DIALOG_PANEL_SIZE = 400;
 }
