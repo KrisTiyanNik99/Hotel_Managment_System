@@ -1,4 +1,4 @@
-package ui.components;
+package ui.components.menu;
 
 import com.toedter.calendar.JDateChooser;
 import controller.UIController;
@@ -10,6 +10,7 @@ import models.room.RoomType;
 import services.managers.bookings.BookingManager;
 import services.managers.room_types.RoomTypeManager;
 import services.managers.users.UserManager;
+import ui.components.UserUIElement;
 
 import javax.swing.*;
 

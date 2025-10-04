@@ -1,8 +1,9 @@
-package ui.components;
+package ui.components.auth;
 
 import controller.UIController;
 import models.enums.UIElement;
 import services.managers.users.UserManager;
+import ui.components.AbstractsUIElement;
 
 import javax.swing.*;
 

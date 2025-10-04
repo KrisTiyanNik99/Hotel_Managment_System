@@ -7,6 +7,7 @@ public interface UIController {
     void showLoginPanel();
     void showRegisterPanel();
     void showMainPanel(Integer userId);
+    void showAdminPanel();
     void createRepositoryInstances();
     void createManagerInstances();
 }

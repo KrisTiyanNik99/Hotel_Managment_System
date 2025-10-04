@@ -37,4 +37,6 @@ public class ConstantMessages {
     public static final String RESERVATION_TO_DATE_TITLE_DIALOG = "You can stay to: %s";
     public static final String NO_ROOM_SELECTED_TITLE = "Room is not selected";
     public static final String NO_ROOM_SELECTED = "Cannot make reservation. Room is not selected";
+    public static final String ADMIN_HELLO_MESSAGE = "This is Admin Panel";
+    public static final String ROOM_TYPE_DIALOG_TITLE = "Create Room Type Dialog";
 }

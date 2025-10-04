@@ -16,6 +16,10 @@ import services.managers.users.UserManagerImpl;
 import services.repos.*;
 import ui.Window;
 import ui.components.*;
+import ui.components.auth.LoginPanel;
+import ui.components.auth.RegisterPanel;
+import ui.components.menu.AdminMenuPanel;
+import ui.components.menu.MenuPanel;
 
 public class AppController implements UIController {
     private final Window mainWindow;
@@ -49,6 +53,9 @@ public class AppController implements UIController {
         } else if (component.equals(UIElement.MENU)) {
             uiElement = new MenuPanel(bookingManager, roomTypeManager,
                     roomManager, userManager, this);
+        } else if (component.equals(UIElement.ADMIN)) {
+            uiElement = new AdminMenuPanel(this, roomTypeManager,
+                    roomManager, bookingManager);
         } else {
             throw new IllegalArgumentException();
         }
@@ -78,6 +85,11 @@ public class AppController implements UIController {
 
         mainWindow.replacePanel(UIElement.MENU.getTypeAsString(), userUIElement);
         mainWindow.showPanel(userUIElement.getType());
+    }
+
+    @Override
+    public void showAdminPanel() {
+        mainWindow.showPanel(UIElement.ADMIN.getTypeAsString());
     }
 
     @Override

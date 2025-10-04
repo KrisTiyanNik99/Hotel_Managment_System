@@ -3,7 +3,8 @@ package models.enums;
 public enum UIElement {
     LOGIN("LOGIN"),
     REGISTER("REGISTER"),
-    MENU("MENU");
+    MENU("MENU"),
+    ADMIN("ADMIN");
 
     private final String type;
     UIElement(String type) {

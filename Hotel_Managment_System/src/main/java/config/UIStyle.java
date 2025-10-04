@@ -22,6 +22,11 @@ public class UIStyle {
     public static final String TO_DATE = "To:";
     public static final String OK_TITLE = "OK";
     public static final String CANCEL_RESERVATION = "Cancel reservation";
+    public static final String ROOM_TYPE_NAME = "Name:";
+    public static final String ROOM_TYPE_AMENITIES = "Amenities:";
+    public static final String ROOM_TYPE_OCCUPANCY = "Maximum Occupancy:";
+    public static final String ROOM_TYPE_CANCEL = "Cancel";
+    public static final String ROOM_TYPE_CREATE = "Create";
 
     // Elements size and styles
     public static final int GAP = 8;
