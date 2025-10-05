@@ -32,8 +32,6 @@ public class MainWindow extends JFrame implements Window {
         setContentPane(contentPanel);
     }
 
-    // TODO: Add method who return registred panel
-
     @Override
     public void registerPanel(String element, AbstractsUIElement panel) {
         if (registeredPanels.containsKey(element)) {

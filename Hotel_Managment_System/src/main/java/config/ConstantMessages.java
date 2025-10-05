@@ -39,4 +39,14 @@ public class ConstantMessages {
     public static final String NO_ROOM_SELECTED = "Cannot make reservation. Room is not selected";
     public static final String ADMIN_HELLO_MESSAGE = "This is Admin Panel";
     public static final String ROOM_TYPE_DIALOG_TITLE = "Create Room Type Dialog";
+    public static final String EMPTY_FIELD_ROOM_TYPE_TITLE = "Empty field/s!";
+    public static final String EMPTY_FIELD_FOR_ROOM_TYPE = "You try to create Room Type with empty and/or invalid field!";
+    public static final String ADD_NEW_ROOM_TYPE_TITLE = "Successfully add!";
+    public static final String ADD_NEW_ROOM_TYPE = "You successfully add new room type value!";
+    public static final String NOT_SELECTED_ROOM_TYPE = "Not selected room type";
+    public static final String SELECT_ROOM_TYPE = "You need to select room type for delete!";
+    public static final String EMPTY_ROOM_LIST_TITLE = "Empty room list";
+    public static final String EMPTY_ROOM_LIST = "The list with rooms is empty!";
+    public static final String ROOM_DIALOG_TITLE = "Create Room dialog";
+    public static final String EMPTY_ROOM_TYPE_VALUE = "Empty";
 }

@@ -5,9 +5,9 @@ import models.enums.UIElement;
 import models.room.Room;
 import models.room.RoomType;
 import models.user.User;
-import services.managers.bookings.BookingManager;
+import services.managers.bookings.AdminBookingManager;
 import services.managers.bookings.BookingManagerImpl;
-import services.managers.room_types.RoomTypeManager;
+import services.managers.room_types.AdminRoomTypeManager;
 import services.managers.room_types.RoomTypeManagerImpl;
 import services.managers.rooms.RoomManager;
 import services.managers.rooms.RoomManagerImpl;
@@ -31,8 +31,8 @@ public class AppController implements UIController {
     private RepoService<User> userRepo;
 
     // Instances of all manager classes that need a repository classes
-    private BookingManager bookingManager;
-    private RoomTypeManager roomTypeManager;
+    private AdminBookingManager bookingManager;
+    private AdminRoomTypeManager roomTypeManager;
     private RoomManager roomManager;
     private UserManager userManager;
 

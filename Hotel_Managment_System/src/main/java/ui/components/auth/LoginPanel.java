@@ -60,6 +60,7 @@ public class LoginPanel extends AbstractsUIElement implements UIComponent {
 
             if (username.equals("Dragan") && password.equals("admin123")) {
                 controller.showAdminPanel();
+                return;
             }
 
             Integer userId = userManager.login(username, password);

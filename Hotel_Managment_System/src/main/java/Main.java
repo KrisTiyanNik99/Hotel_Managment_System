@@ -10,6 +10,7 @@ public class Main {
         ap.registerComponents(UIElement.LOGIN);
         ap.registerComponents(UIElement.REGISTER);
         ap.registerComponents(UIElement.MENU);
+        ap.registerComponents(UIElement.ADMIN);
 
         ap.showLoginPanel();
         //ap.showMainPanel();

@@ -27,6 +27,12 @@ public class UIStyle {
     public static final String ROOM_TYPE_OCCUPANCY = "Maximum Occupancy:";
     public static final String ROOM_TYPE_CANCEL = "Cancel";
     public static final String ROOM_TYPE_CREATE = "Create";
+    public static final String ADD_ROOM_TYPE = "Add Room Type";
+    public static final String DELETE_ROOM_TYPE = "Delete Room Type";
+    public static final String ADD_ROOM = "Add room";
+    public static final String DELETE_ROOM = "Delete room";
+    public static final String ROOM_TYPE_TITLE = "Room Type";
+
 
     // Elements size and styles
     public static final int GAP = 8;

@@ -6,7 +6,7 @@ import services.repos.RepoService;
 
 import java.util.List;
 
-public class RoomTypeManagerImpl implements RoomTypeManager {
+public class RoomTypeManagerImpl implements AdminRoomTypeManager {
     private final RepoService<RoomType> roomTypeRepository;
 
     public RoomTypeManagerImpl(RepoService<RoomType> roomTypeRepoService) {
@@ -18,6 +18,7 @@ public class RoomTypeManagerImpl implements RoomTypeManager {
         return roomTypeRepository.findById(roomTypeId);
     }
 
+    @Override
     public RoomType createNewRoomType(String name, String amenities, int maximumOccupancy) {
         // При създаването на нова стая правил автоматичен брояч, наподобяващ уникалните ключове в sql
         int roomTypeId = roomTypeRepository.generateNextId();
@@ -30,10 +31,12 @@ public class RoomTypeManagerImpl implements RoomTypeManager {
         return getById(roomTypeId);
     }
 
+    @Override
     public void updateRoomType(RoomType roomType) {
         roomTypeRepository.updateValue(roomType);
     }
 
+    @Override
     public void deleteRoomType(RoomType roomType) {
         roomTypeRepository.deleteById(roomType.getId());
     }

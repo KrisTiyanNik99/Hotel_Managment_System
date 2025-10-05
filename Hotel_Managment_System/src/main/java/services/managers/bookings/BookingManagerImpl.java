@@ -8,7 +8,7 @@ import services.repos.RepoService;
 import java.time.LocalDate;
 import java.util.List;
 
-public class BookingManagerImpl implements BookingManager {
+public class BookingManagerImpl implements AdminBookingManager {
     private final RepoService<Reservation> bookingRepo;
     private final RoomStatusService roomManagerStatus;
 
@@ -57,12 +57,25 @@ public class BookingManagerImpl implements BookingManager {
     }
 
     @Override
+    public List<Reservation> getReservationByRoomNumber(Integer roomNumber) {
+        return bookingRepo.findAll()
+                .stream()
+                .filter(res -> res.getRoomId().equals(roomNumber))
+                .toList();
+    }
+
+    @Override
     public List<Reservation> getCanceledReservations(Integer userId) {
         return bookingRepo.findAll()
                 .stream()
                 .filter(e -> userId.equals(e.getUserId()))
                 .filter(Reservation::isCanceled)
                 .toList();
+    }
+
+    @Override
+    public void deleteReservation(Reservation reservation) {
+        bookingRepo.deleteById(reservation.getId());
     }
 
     @Override
