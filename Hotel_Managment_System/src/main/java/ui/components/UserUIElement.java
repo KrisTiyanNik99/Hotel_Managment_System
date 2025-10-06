@@ -1,14 +1,15 @@
 package ui.components;
 
 import controller.UIController;
-
 import javax.swing.*;
 import java.awt.*;
-
 import static config.ConstantMessages.*;
 import static config.UIStyle.*;
-import static config.UIStyle.FONT_SIZE;
 
+/**
+ * Base class for user-facing UI components.
+ * Provides a reservation confirmation dialog and common visual elements.
+ */
 public abstract class UserUIElement extends AbstractsUIElement {
     private final JButton confirmReservationButton;
     private final JButton refuseReservationButton;
@@ -22,9 +23,7 @@ public abstract class UserUIElement extends AbstractsUIElement {
 
     protected UserUIElement(UIController controller) {
         super(controller);
-
         setBackground(Color.DARK_GRAY);
-
 
         usernameReservationLabel = new JLabel(RESERVATION_USER_TITLE_DIALOG);
         roomReservationLabel = new JLabel(RESERVED_ROOM_NUMBER_TITLE_DIALOG);
@@ -35,11 +34,15 @@ public abstract class UserUIElement extends AbstractsUIElement {
         refuseReservationButton = new JButton(CANCEL_RESERVATION);
     }
 
+    /**
+     * Initializes the reservation dialog layout with confirmation buttons and labels.
+     */
     protected void initReservationDialog() {
-         reservationDialog = new JDialog(
+        reservationDialog = new JDialog(
                 parentWindow,
                 RESERVATION_DIALOG_TITLE,
-                Dialog.ModalityType.APPLICATION_MODAL);
+                Dialog.ModalityType.APPLICATION_MODAL
+        );
 
         reservationDialog.setSize(DIALOG_PANEL_SIZE, DIALOG_PANEL_SIZE);
         reservationDialog.setLocationRelativeTo(parentWindow);
@@ -57,6 +60,16 @@ public abstract class UserUIElement extends AbstractsUIElement {
         reservationDialog.add(mainLayout);
     }
 
+    /**
+     * Defines the action performed when a user confirms a reservation.
+     * Implemented by subclasses.
+     */
     protected abstract void confirmUserReservation();
+
+    /**
+     * Sets the current user data for this UI component.
+     *
+     * @param userId user identifier
+     */
     public abstract void setUserById(Integer userId);
 }

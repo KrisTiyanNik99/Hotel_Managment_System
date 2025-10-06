@@ -2,13 +2,14 @@ package ui.components;
 
 import controller.UIController;
 import models.enums.UIElement;
-
 import javax.swing.*;
 import java.awt.*;
-
 import static config.UIStyle.*;
-import static config.UIStyle.FONT_SIZE;
 
+/**
+ * Abstract base class for building visual UI elements.
+ * Provides helper methods for consistent Swing component styling and layout.
+ */
 public abstract class AbstractsUIElement extends JPanel implements UIComponent {
     protected static final int X_SCALE = 240;
 
@@ -19,9 +20,10 @@ public abstract class AbstractsUIElement extends JPanel implements UIComponent {
 
     protected AbstractsUIElement(UIController controller) {
         this.controller = controller;
-
         setLayout(null);
         setBackground(Color.CYAN);
+
+        // Parent window reference used for dialog creation or context
         parentWindow = SwingUtilities.getWindowAncestor(this);
     }
 
@@ -30,6 +32,7 @@ public abstract class AbstractsUIElement extends JPanel implements UIComponent {
         return elementType.getTypeAsString();
     }
 
+    // Common UI setup helpers for child panels
     protected void setLabelSettings(JLabel label, int y_scale) {
         label.setBounds(X_SCALE, y_scale, LABEL_WIDTH, LABEL_HEIGHT);
         label.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE));
@@ -63,7 +66,7 @@ public abstract class AbstractsUIElement extends JPanel implements UIComponent {
     }
 
     protected void setMenuButtonSettings(JButton button, int x_scale, int y_scale) {
-        button.setBounds(x_scale,y_scale, LABEL_WIDTH, LABEL_HEIGHT);
+        button.setBounds(x_scale, y_scale, LABEL_WIDTH, LABEL_HEIGHT);
         button.setBackground(Color.CYAN);
         button.setForeground(Color.BLACK);
         button.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE));
@@ -71,5 +74,8 @@ public abstract class AbstractsUIElement extends JPanel implements UIComponent {
         add(button);
     }
 
+    /**
+     * Returns the specific type of the current UI element.
+     */
     protected abstract UIElement getElementType();
 }

@@ -1,16 +1,17 @@
 package ui;
 
 import ui.components.AbstractsUIElement;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
-
 import static config.ConstantMessages.*;
-import static config.UIStyle.MAIN_WINDOW_HEIGHT;
-import static config.UIStyle.MAIN_WINDOW_WIDTH;
+import static config.UIStyle.*;
 
+/**
+ * Main application window implementation using {@link JFrame} and {@link CardLayout}.
+ * Manages switching between registered UI panels.
+ */
 public class MainWindow extends JFrame implements Window {
     private final CardLayout cardLayout;
     private final JPanel contentPanel;
@@ -41,10 +42,8 @@ public class MainWindow extends JFrame implements Window {
                     EXISTED_PANEL_TITLE,
                     JOptionPane.ERROR_MESSAGE
             );
-
             return;
         }
-
         contentPanel.add(panel, element);
         registeredPanels.put(element, panel);
     }
@@ -52,19 +51,18 @@ public class MainWindow extends JFrame implements Window {
     @Override
     public void showPanel(String panelName) {
         if (isPanelExist(panelName)) return;
-
         cardLayout.show(contentPanel, panelName);
     }
 
     @Override
-    public void replacePanel(String element, AbstractsUIElement uiComponent) {
+    public void replacePanel(String element, AbstractsUIElement panel) {
         if (isPanelExist(element)) return;
 
         JPanel currentPanel = registeredPanels.get(element);
         contentPanel.remove(currentPanel);
 
-        contentPanel.add(uiComponent, element);
-        registeredPanels.put(element, uiComponent);
+        contentPanel.add(panel, element);
+        registeredPanels.put(element, panel);
 
         contentPanel.revalidate();
         contentPanel.repaint();
@@ -78,10 +76,8 @@ public class MainWindow extends JFrame implements Window {
                     NOT_FOUND_SUCH_PANEL,
                     JOptionPane.ERROR_MESSAGE
             );
-
             return true;
         }
-
         return false;
     }
 }

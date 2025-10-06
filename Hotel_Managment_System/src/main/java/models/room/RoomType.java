@@ -2,6 +2,10 @@ package models.room;
 
 import func.Identifiable;
 
+/**
+ * Represents a specific type of room, including its name,
+ * amenities and maximum occupancy.
+ */
 public interface RoomType extends Identifiable {
     String getName();
     String getAmenities();

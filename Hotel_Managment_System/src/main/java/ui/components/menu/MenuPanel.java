@@ -179,8 +179,8 @@ public class MenuPanel extends UserUIElement {
     private void showValidRooms() {
         RoomType selectedRoomType = (RoomType) roomTypeComboBox.getSelectedItem();
         if (selectedRoomType == null) {
-            JOptionPane.showMessageDialog(this, NO_SELECTED_ROOM_TYPE,
-                    NO_SELECTED, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, EMPTY_FIELDS,
+                    USERNAME_PASSWORD_CANNOT_EMPTY, JOptionPane.ERROR_MESSAGE);
 
             return;
         }

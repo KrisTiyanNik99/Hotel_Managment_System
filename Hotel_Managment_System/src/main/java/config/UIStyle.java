@@ -1,11 +1,16 @@
 package config;
 
+/**
+ * Defines constants for UI layout, styling, and label text used in the application.
+ * Centralizing UI values ensures visual consistency and simplifies design adjustments.
+ */
 public class UIStyle {
-    // General options for Main Windows
+
+    // --- Main Window Dimensions ---
     public static final int MAIN_WINDOW_HEIGHT = 600;
     public static final int MAIN_WINDOW_WIDTH = 800;
 
-    // Options for labels, panels and e.t.
+    // --- UI Labels and Button Text ---
     public static final String PASSWORD_TEXT_LABEL = "Password";
     public static final String USERNAME_TEXT_LABEL = "Username";
     public static final String LOGIN_TEXT_BUTTON = "Login";
@@ -40,9 +45,8 @@ public class UIStyle {
     public static final String USER_LIST = "List of all users";
     public static final String DELETE_USER = "Delete user";
 
-    // Elements size and styles
+    // --- Layout and Styling ---
     public static final int GAP = 8;
-
     public static final String ARIEL_STYLE = "Ariel";
     public static final int LABEL_WIDTH = 300;
     public static final int LABEL_HEIGHT = 40;

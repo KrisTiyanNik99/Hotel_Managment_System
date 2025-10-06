@@ -3,9 +3,12 @@ package services.managers.room_types;
 import models.room.RoomType;
 import models.room.RoomTypeImpl;
 import services.repos.RepoService;
-
 import java.util.List;
 
+/**
+ * Implementation of {@link AdminRoomTypeManager}.
+ * Provides CRUD operations for room type management.
+ */
 public class RoomTypeManagerImpl implements AdminRoomTypeManager {
     private final RepoService<RoomType> roomTypeRepository;
 
@@ -20,20 +23,14 @@ public class RoomTypeManagerImpl implements AdminRoomTypeManager {
 
     @Override
     public RoomType createNewRoomType(String name, String amenities, int maximumOccupancy) {
-        // При създаването на нова стая правил автоматичен брояч, наподобяващ уникалните ключове в sql
+        // Auto-increment ID simulates SQL-like unique key generation
         int roomTypeId = roomTypeRepository.generateNextId();
+
         roomTypeRepository.createValue(
-                new RoomTypeImpl(roomTypeId,
-                        name,
-                        amenities,
-                        maximumOccupancy));
+                new RoomTypeImpl(roomTypeId, name, amenities, maximumOccupancy)
+        );
 
         return getById(roomTypeId);
-    }
-
-    @Override
-    public void updateRoomType(RoomType roomType) {
-        roomTypeRepository.updateValue(roomType);
     }
 
     @Override

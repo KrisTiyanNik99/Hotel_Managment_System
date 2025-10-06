@@ -1,29 +1,61 @@
 package config;
 
+/**
+ * Contains constant message strings used across the user interface and application logic.
+ * These messages cover validation feedback, dialog titles, user notifications,
+ * and other UI text elements. Keeping them centralized allows for easier maintenance
+ * and potential localization.
+ */
 public class ConstantMessages {
-    public static final String AVAILABLE_TYPE_ROOM_TITLE = "List of all available room types";
-    public static final String AVAILABLE_ROOM_TITLE = "List of all available room.";
+
+    // --- General Application Messages ---
     public static final String APPLICATION_TITLE = "Hotel Manager System";
-    public static final String EMPTY_FIELDS = "Error - empty field/s.";
-    public static final String EXISTED_USER = "Existed user.";
-    public static final String EXISTED_PANEL = "Such panel already exist!";
-    public static final String EXISTED_PANEL_TITLE = "Existed Panel";
-    public static final String HELLO_USER_MESSAGE = "Hello %s we are glad to see you again!";
-    public static final String NO_SELECTED_ROOM_TYPE = "You need to select room type first!";
-    public static final String NO_SELECTED = "No selected room type.";
-    public static final String NO_AVAILABLE_ROOMS_TITLE = "No available rooms";
-    public static final String NO_AVAILABLE_ROOMS_TEXT = "There is no available rooms from this type!";
-    public static final String NOT_FOUND_SUCH_PANEL = "Such panel is not registered!";
-    public static final String PANEL_NOT_FOUND_MESSAGE = "Such panel is not found. Please first registered the panel!";
     public static final String SUCCESS = "Success";
     public static final String SUCCESSFULLY_REGISTRATION = "Successfully registration.";
-    public static final String USER_DOES_NOT_EXIST = "Such user doesn't exit!";
-    public static final String USER_ALREADY_EXIST = "Such user with this password and username already exist!";
-    public static final String USER_ID_NULL_TITLE = "User Id is null";
-    public static final String USER_ID_IS_NULL = "User id is null but it cannot be";
-    public static final String USERNAME_PASSWORD_CANNOT_EMPTY = "Username or/and password field cannot be empty!";
     public static final String UNSUCCESSFULLY_REGISTRATION = "Unsuccessfully registration: ";
     public static final String UNSUCCESSFULLY_TITLE = "Failed. Please try again!";
+    public static final String EXISTED_USER = "Existed user.";
+    public static final String USER_DOES_NOT_EXIST = "Such user doesn't exit!";
+    public static final String USER_ALREADY_EXIST = "Such user with this password and username already exist!";
+    public static final String EMPTY_FIELDS = "Error - empty field/s.";
+    public static final String USERNAME_PASSWORD_CANNOT_EMPTY = "Username or/and password field cannot be empty!";
+    public static final String HELLO_USER_MESSAGE = "Hello %s we are glad to see you again!";
+
+    // --- UI and Panel Messages ---
+    public static final String EXISTED_PANEL = "Such panel already exist!";
+    public static final String EXISTED_PANEL_TITLE = "Existed Panel";
+    public static final String NOT_FOUND_SUCH_PANEL = "Such panel is not registered!";
+    public static final String PANEL_NOT_FOUND_MESSAGE = "Such panel is not found. Please first registered the panel!";
+    public static final String ADMIN_HELLO_MESSAGE = "This is Admin Panel";
+
+    // --- Room Type Messages ---
+    public static final String AVAILABLE_TYPE_ROOM_TITLE = "List of all available room types";
+    public static final String ROOM_TYPE_DIALOG_TITLE = "Create Room Type Dialog";
+    public static final String EMPTY_FIELD_ROOM_TYPE_TITLE = "Empty field/s!";
+    public static final String EMPTY_FIELD_FOR_ROOM_TYPE = "You try to create Room Type with empty and/or invalid field!";
+    public static final String ADD_NEW_ROOM_TYPE_TITLE = "Successfully add!";
+    public static final String ADD_NEW_ROOM_TYPE = "You successfully add new room type value!";
+    public static final String NOT_SELECTED_ROOM_TYPE = "Not selected room type";
+    public static final String SELECT_ROOM_TYPE = "You need to select room type for delete!";
+
+    // --- Room Messages ---
+    public static final String AVAILABLE_ROOM_TITLE = "List of all available room.";
+    public static final String NO_AVAILABLE_ROOMS_TITLE = "No available rooms";
+    public static final String NO_AVAILABLE_ROOMS_TEXT = "There is no available rooms from this type!";
+    public static final String NO_ROOM_SELECTED_TITLE = "Room is not selected";
+    public static final String NO_ROOM_SELECTED = "Cannot make reservation. Room is not selected";
+    public static final String ROOM_DIALOG_TITLE = "Create Room dialog";
+    public static final String ROOM_PRICE = "Price per night";
+    public static final String ROOM_CANCEL_FEE = "Fee for cancel";
+    public static final String PRICE_FORMAT = "Price format is incorrect!";
+    public static final String PRICE_FORMAT_TITLE = "Incorrect format";
+    public static final String CREATED_ROOM = "The room is successfully create";
+    public static final String NEW_ROOM_ADDED_TITLE = "Successfully add";
+    public static final String ROOM_NOT_CHOOSE = "Please select a room";
+    public static final String EMPTY_ROOM_LIST_TITLE = "Empty room list";
+    public static final String EMPTY_ROOM_LIST = "The list with rooms is empty!";
+
+    // --- Reservation Messages ---
     public static final String CHOOSE_DATES = "Choose arrival date and check out!";
     public static final String CHOOSE_DAYS_TITLE = "You dates choose";
     public static final String CHOOSE_DAYS = "Your dates are: from %s to %s";
@@ -35,34 +67,18 @@ public class ConstantMessages {
     public static final String RESERVED_ROOM_NUMBER_TITLE_DIALOG = "Your room is: %d";
     public static final String RESERVATION_FROM_DATE_TITLE_DIALOG = "Your reservation is from: %s";
     public static final String RESERVATION_TO_DATE_TITLE_DIALOG = "You can stay to: %s";
-    public static final String NO_ROOM_SELECTED_TITLE = "Room is not selected";
-    public static final String NO_ROOM_SELECTED = "Cannot make reservation. Room is not selected";
-    public static final String ADMIN_HELLO_MESSAGE = "This is Admin Panel";
-    public static final String ROOM_TYPE_DIALOG_TITLE = "Create Room Type Dialog";
-    public static final String EMPTY_FIELD_ROOM_TYPE_TITLE = "Empty field/s!";
-    public static final String EMPTY_FIELD_FOR_ROOM_TYPE = "You try to create Room Type with empty and/or invalid field!";
-    public static final String ADD_NEW_ROOM_TYPE_TITLE = "Successfully add!";
-    public static final String ADD_NEW_ROOM_TYPE = "You successfully add new room type value!";
-    public static final String NOT_SELECTED_ROOM_TYPE = "Not selected room type";
-    public static final String SELECT_ROOM_TYPE = "You need to select room type for delete!";
-    public static final String EMPTY_ROOM_LIST_TITLE = "Empty room list";
-    public static final String EMPTY_ROOM_LIST = "The list with rooms is empty!";
-    public static final String ROOM_DIALOG_TITLE = "Create Room dialog";
-    public static final String ROOM_PRICE = "Price per night";
-    public static final String ROOM_CANCEL_FEE = "Fee for cancel";
-    public static final String PRICE_FORMAT = "Price format is incorrect!";
-    public static final String PRICE_FORMAT_TITLE = "Incorrect format";
-    public static final String CREATED_ROOM = "The room is successfully create";
-    public static final String NEW_ROOM_ADDED_TITLE = "Successfully add";
-    public static final String ROOM_NOT_CHOOSE = "Please select a room";
     public static final String EMPTY_RESERVATION_LIST_TITLE = "Empty room list";
     public static final String EMPTY_RESERVATION_LIST = "The list with reservations is empty!";
     public static final String RESERVATION_EMPTY = "Reservation is not found";
     public static final String RESERVATION_SELECT = "Select reservation first!";
     public static final String DELETED_RESERVATION = "Successfully delete";
     public static final String RESERVATION_DELETED = "Reservation is deleted!";
+
+    // --- User Messages ---
     public static final String EMPTY_USER = "Empty user";
     public static final String SELECT_USER = "Please select user first";
     public static final String SUCCESSFULLY_DELETE_USER_TITLE = "Successfully delete";
     public static final String SUCCESSFULLY_DELETE_USER = "The user is delete with his booking history";
+    public static final String USER_ID_NULL_TITLE = "User Id is null";
+    public static final String USER_ID_IS_NULL = "User id is null but it cannot be";
 }

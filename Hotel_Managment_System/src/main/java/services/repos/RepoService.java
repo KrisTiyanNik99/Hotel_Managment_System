@@ -11,27 +11,53 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-/*
-    Това е клас който ще служи като абстракция над взимането на данни и ще съдържа нормалните CRUD операции, защото четенето
-    и записването на елементи във файлове е тежка и бавна операция (все пак не използме база данни като mysql, oracle...)
+/**
+ * Abstract base class that provides a generic, file-based implementation
+ * of a repository service.
+ * {@code RepoService} serves as the bridge between persistent storage (text files)
+ * and the in-memory representation of domain entities.
+ * It implements:
+ *   {@link ObjectProvider} – to reconstruct objects from serialized data
+ *   {@link DataWriter} – to create, update, and delete entities
+ *   {@link DataProvider} – to retrieve entities from storage
+ *
+ * @param <T> the type of entity managed by this repository, must implement {@link Identifiable}
  */
-public abstract class RepoService<T extends Identifiable> implements ObjectProvider<T>,
-        DataWriter<T>, DataProvider<T> {
+public abstract class RepoService<T extends Identifiable>
+        implements ObjectProvider<T>, DataWriter<T>, DataProvider<T> {
+
+    /** Message used when a requested element cannot be found. */
     private static final String ELEMENT_NOT_FOUND_MESSAGE = "Element with id: %d is not found!";
+
+    /** Delimiter used to separate key-value pairs in serialized objects. */
     protected static final String REGEX_EXPRESSION = ":";
+
+    /** Default index position for property values in split string data. */
     protected static final int VALUE_POSITION = 1;
 
+    /** In-memory map of entity ID → entity instance. */
     private final Map<Integer, T> entityMap;
+
+    /** The filename of the repository file. */
     private String repositoryFileName;
+
+    /** The last generated entity ID. */
     private Integer newId;
 
+    /**
+     * Initializes the repository by loading data from the given file.
+     *
+     * @param repositoryFileName the name of the file to load data from;
+     *                           if {@code null}, a new one will be created
+     */
     public RepoService(String repositoryFileName) {
         setRepositoryFileName(repositoryFileName);
         entityMap = new LinkedHashMap<>();
         loadFromFile();
     }
 
-    // От тук започват обикновенните "CRUD" операции, които трябва да може да предоставя един такъв клас като функционалност
+    // -------------------- CRUD Operations --------------------
+
     @Override
     public T findById(Integer id) {
         return entityMap.get(id);
@@ -39,15 +65,10 @@ public abstract class RepoService<T extends Identifiable> implements ObjectProvi
 
     @Override
     public void deleteById(Integer id) {
-        /*
-            Метода който запазва информация във файла е много бавна операция! Затова ни трябва тази проверка за да сме
-            сигурни, че id-то съзществува и да не бавим програмата излишно
-        */
         if (!existsById(id)) {
-            System.out.printf((ELEMENT_NOT_FOUND_MESSAGE) + "%n", id);
+            System.out.printf(ELEMENT_NOT_FOUND_MESSAGE + "%n", id);
             return;
         }
-
         entityMap.remove(id);
         persistToFile();
     }
@@ -58,7 +79,6 @@ public abstract class RepoService<T extends Identifiable> implements ObjectProvi
             System.out.println(typeName() + " cannot be null or already existed!");
             return;
         }
-
         entityMap.put(newInstance.getId(), newInstance);
         persistToFile();
         setNewId(newInstance.getId());
@@ -71,7 +91,6 @@ public abstract class RepoService<T extends Identifiable> implements ObjectProvi
             System.out.println(typeName() + " cannot be null or non existed!");
             return;
         }
-
         entityMap.put(instance.getId(), instance);
         persistToFile();
         System.out.println(typeName() + " is successfully updated!");
@@ -79,47 +98,50 @@ public abstract class RepoService<T extends Identifiable> implements ObjectProvi
 
     @Override
     public List<T> findAll() {
-        List<T> entities = entityMap.values()
-                .stream()
-                .toList();
-
-        return List.copyOf(entities);
+        return List.copyOf(entityMap.values());
     }
 
+    // -------------------- Utility and Internal Logic --------------------
 
+    /** Generates and returns the next available ID value. */
     public int generateNextId() {
         setNewId(newId + 1);
         return newId;
     }
 
+    /** Updates the last used ID tracker. */
     protected void setNewId(Integer newId) {
         this.newId = newId;
     }
 
+    /** Checks if an entity with the given ID exists in memory. */
     protected boolean existsById(Integer id) {
         return entityMap.containsKey(id);
     }
 
+    /** Persists the entire entity map back into the file system. */
     protected void persistToFile() {
         try (PrintWriter writer = new PrintWriter(Configurations.FILE_ROOT_PATH + repositoryFileName)) {
-            for (T currRoom : entityMap.values()) {
-                writer.print(currRoom.textFormat());
+            for (T entity : entityMap.values()) {
+                writer.print(entity.textFormat());
             }
         } catch (Exception e) {
-            throw new RuntimeException("Error while writing to file: " + Configurations.FILE_ROOT_PATH + repositoryFileName, e);
+            throw new RuntimeException("Error while writing to file: " +
+                    Configurations.FILE_ROOT_PATH + repositoryFileName, e);
         }
     }
 
+    /** Sets repository file name and creates a new file if necessary. */
     private void setRepositoryFileName(String repositoryFileName) {
         if (repositoryFileName == null || repositoryFileName.isBlank()) {
             repositoryFileName = initializeFileName();
-            createNewRoomFile(repositoryFileName);
+            createNewRepoFile(repositoryFileName);
         }
-
         this.repositoryFileName = repositoryFileName;
     }
 
-    private void createNewRoomFile(String fileName) {
+    /** Creates a new file in the configured repository directory. */
+    private void createNewRepoFile(String fileName) {
         File repoFile = new File(Configurations.FILE_ROOT_PATH + fileName);
         try {
             repoFile.createNewFile();
@@ -128,6 +150,7 @@ public abstract class RepoService<T extends Identifiable> implements ObjectProvi
         }
     }
 
+    /** Loads and deserializes entities from a file into memory. */
     private void loadFromFile() {
         File repository = new File(Configurations.FILE_ROOT_PATH + repositoryFileName);
         if (!repository.exists()) {
@@ -135,26 +158,32 @@ public abstract class RepoService<T extends Identifiable> implements ObjectProvi
             return;
         }
 
-        try {
+        try  {
             Scanner reader = new Scanner(Objects.requireNonNull(repository));
             while (reader.hasNextLine()) {
-                /*
-                    Тук в regex си позволяваме да хардкоднем ";" защото приемаме само generic типове, които имплементират
-                    FileFormatter. Всички класове, които имплементират FileFormatter ни е гарантирано, че са разделени
-                    с ";" между всички отделни части на записа.
-                */
                 String[] sourceObjData = reader.nextLine().split(";");
                 T newInstance = getObjectFromData(sourceObjData);
                 entityMap.put(newInstance.getId(), newInstance);
             }
-
-        } catch (Exception е) {
-            // Игнорираме за момента грешката защото в противен случай протграмата ще спре!
-            System.out.println(е.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
+    // -------------------- Abstract Methods --------------------
 
+    /**
+     * Specifies the default filename for the repository when none is provided.
+     *
+     * @return the repository filename
+     */
     protected abstract String initializeFileName();
+
+    /**
+     * Specifies a human-readable type name for the managed entity,
+     * used primarily in log or console messages.
+     *
+     * @return the entity type name
+     */
     protected abstract String typeName();
 }

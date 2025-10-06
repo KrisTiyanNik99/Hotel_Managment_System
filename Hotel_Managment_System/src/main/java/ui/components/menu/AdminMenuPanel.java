@@ -13,15 +13,24 @@ import services.managers.users.AdminUserManager;
 import ui.components.AbstractsUIElement;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.util.List;
 
 import static config.ConstantMessages.*;
 import static config.UIStyle.*;
-import static config.UIStyle.DELETE_ROOM;
-import static config.UIStyle.FONT_SIZE;
 
+/**
+ * Administrative dashboard panel.
+ * Provides management functionalities for:
+ * - Room types
+ * - Rooms
+ * - Reservations
+ * - Users
+ *
+ * Each entity is displayed as a list, allowing CRUD-like operations
+ * such as creation and deletion. The panel also triggers modal dialogs
+ * for creating room types and rooms.
+ */
 public class AdminMenuPanel extends AbstractsUIElement {
     private static final int X_MENU_SCALE = 10;
     private static final int Y_MENU_SCALE = 50;
@@ -44,6 +53,15 @@ public class AdminMenuPanel extends AbstractsUIElement {
     private JDialog roomTypeDialog;
     private JDialog roomDialog;
 
+    /**
+     * Constructs the AdminMenuPanel with the necessary manager services.
+     *
+     * @param controller      UI navigation controller
+     * @param roomTypeManager manager for room types
+     * @param roomManager     manager for rooms
+     * @param bookingManager  manager for reservations
+     * @param userManager     manager for users
+     */
     public AdminMenuPanel(UIController controller,
                           AdminRoomTypeManager roomTypeManager,
                           RoomManager roomManager,
@@ -72,11 +90,13 @@ public class AdminMenuPanel extends AbstractsUIElement {
         initComponents();
     }
 
+    /** {@inheritDoc} */
     @Override
     protected UIElement getElementType() {
         return UIElement.ADMIN;
     }
 
+    /** Initializes all UI components and event listeners for the admin dashboard. */
     @Override
     public void initComponents() {
         JLabel adminMessage = new JLabel(ADMIN_HELLO_MESSAGE);
@@ -87,11 +107,11 @@ public class AdminMenuPanel extends AbstractsUIElement {
 
         initDialogs();
 
+        // Room types section
         loadRoomTypes();
-        JScrollPane roomTypeComboBox = new JScrollPane(roomTypeJList);
-        roomTypeComboBox.setBounds(X_MENU_SCALE, Y_MENU_SCALE + 10, LABEL_WIDTH + LABEL_WIDTH + 40, LABEL_HEIGHT + 10);
-        roomTypeComboBox.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE - 2));
-        add(roomTypeComboBox);
+        JScrollPane roomTypeScrollPane = new JScrollPane(roomTypeJList);
+        roomTypeScrollPane.setBounds(X_MENU_SCALE, Y_MENU_SCALE + 10, LABEL_WIDTH + LABEL_WIDTH + 40, LABEL_HEIGHT + 10);
+        add(roomTypeScrollPane);
 
         JButton addRoomTypeButton = new JButton(ADD_ROOM_TYPE);
         setMenuButtonSettings(addRoomTypeButton, X_MENU_SCALE, Y_MENU_SCALE + 65);
@@ -103,14 +123,14 @@ public class AdminMenuPanel extends AbstractsUIElement {
         deleteRoomTypeButton.addActionListener(e -> deleteRoomTypeLogic());
         add(deleteRoomTypeButton);
 
+        // Rooms section
         JLabel allRoomsLabel = new JLabel(ROOM_LIST);
         setMenuLabelSettings(allRoomsLabel, X_MENU_SCALE, 4 * Y_MENU_SCALE - 40);
 
         loadRooms();
-        JScrollPane roomComboBox = new JScrollPane(roomJList);
-        roomComboBox.setBounds(X_MENU_SCALE, 4 * Y_MENU_SCALE - 9, LABEL_WIDTH + LABEL_WIDTH + 40, LABEL_HEIGHT + 10);
-        roomComboBox.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE - 2));
-        add(roomComboBox);
+        JScrollPane roomScrollPane = new JScrollPane(roomJList);
+        roomScrollPane.setBounds(X_MENU_SCALE, 4 * Y_MENU_SCALE - 9, LABEL_WIDTH + LABEL_WIDTH + 40, LABEL_HEIGHT + 10);
+        add(roomScrollPane);
 
         JButton addRoomButton = new JButton(ADD_ROOM);
         setMenuButtonSettings(addRoomButton, X_MENU_SCALE, (4 * Y_MENU_SCALE) + 50);
@@ -123,112 +143,107 @@ public class AdminMenuPanel extends AbstractsUIElement {
         setMenuButtonSettings(deleteRoomButton, X_MENU_SCALE + 330, (4 * Y_MENU_SCALE) + 50);
         deleteRoomButton.addActionListener(e -> deleteRoomLogic());
 
+        // Reservations section
         JLabel reservationLabel = new JLabel(RESERVATION_LIST);
         setMenuLabelSettings(reservationLabel, X_MENU_SCALE, 6 * Y_MENU_SCALE - 5);
 
         loadReservation();
-        JScrollPane reservationPanel = new JScrollPane(reservationJList);
-        reservationPanel.setBounds(X_MENU_SCALE, 6 * Y_MENU_SCALE + 25, LABEL_WIDTH + LABEL_WIDTH + 40, LABEL_HEIGHT + 10);
-        reservationPanel.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE - 2));
-        add(reservationPanel);
+        JScrollPane reservationScrollPane = new JScrollPane(reservationJList);
+        reservationScrollPane.setBounds(X_MENU_SCALE, 6 * Y_MENU_SCALE + 25, LABEL_WIDTH + LABEL_WIDTH + 40, LABEL_HEIGHT + 10);
+        add(reservationScrollPane);
 
         JButton deleteReservationButton = new JButton(DELETE_RESERVATION);
         setMenuButtonSettings(deleteReservationButton, X_MENU_SCALE, (6 * Y_MENU_SCALE) + 80);
         deleteReservationButton.addActionListener(e -> deleteReservationLogic());
 
+        // Users section
         JLabel userListLabel = new JLabel(USER_LIST);
         setMenuLabelSettings(userListLabel, X_MENU_SCALE, 8 * Y_MENU_SCALE + 20);
 
         loadUsers();
-        JScrollPane userPanel = new JScrollPane(userJList);
-        userPanel.setBounds(X_MENU_SCALE, 9 * Y_MENU_SCALE, LABEL_WIDTH + LABEL_WIDTH + 40, LABEL_HEIGHT + 10);
-        userPanel.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE - 2));
-        add(userPanel);
+        JScrollPane userScrollPane = new JScrollPane(userJList);
+        userScrollPane.setBounds(X_MENU_SCALE, 9 * Y_MENU_SCALE, LABEL_WIDTH + LABEL_WIDTH + 40, LABEL_HEIGHT + 10);
+        add(userScrollPane);
 
         JButton deleteUserButton = new JButton(DELETE_USER);
         setMenuButtonSettings(deleteUserButton, X_MENU_SCALE, (9 * Y_MENU_SCALE) + 55);
         deleteUserButton.addActionListener(e -> deleteUserLogic());
     }
 
+    /** Initializes modal dialogs for room and room type creation. */
     private void initDialogs() {
         createRoomTypeDialog();
         createRoomDialog();
     }
 
+    /** Reloads all user data into the UI list. */
     private void loadUsers() {
         userDefaultListModel.clear();
-        userManager.getAll()
-                .forEach(userDefaultListModel::addElement);
-
+        userManager.getAll().forEach(userDefaultListModel::addElement);
         userJList.revalidate();
         userJList.repaint();
     }
 
+    /** Reloads all reservations into the UI list. */
     private void loadReservation() {
         reservationDefaultListModel.clear();
-        bookingManager.getAll()
-                .forEach(reservationDefaultListModel::addElement);
-
+        bookingManager.getAll().forEach(reservationDefaultListModel::addElement);
         reservationJList.revalidate();
         reservationJList.repaint();
     }
 
+    /** Reloads all room types into the UI list. */
     private void loadRoomTypes() {
         roomTypeDefaultListModel.clear();
-        roomTypeManager.getAll()
-                .forEach(roomTypeDefaultListModel::addElement);
-
+        roomTypeManager.getAll().forEach(roomTypeDefaultListModel::addElement);
         roomTypeJList.revalidate();
         roomTypeJList.repaint();
     }
 
+    /** Reloads all rooms into the UI list. */
     private void loadRooms() {
         roomDefaultListModel.clear();
-        roomManager.getAll()
-                .forEach(roomDefaultListModel::addElement);
-
+        roomManager.getAll().forEach(roomDefaultListModel::addElement);
         roomJList.revalidate();
         roomJList.repaint();
     }
 
+    /** Deletes the selected user and their associated reservations. */
     private void deleteUserLogic() {
         User user = userJList.getSelectedValue();
         if (user == null) {
-            JOptionPane.showMessageDialog(this, SELECT_USER,
-                    EMPTY_USER, JOptionPane.ERROR_MESSAGE);
-
+            JOptionPane.showMessageDialog(this, SELECT_USER, EMPTY_USER, JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         userManager.deleteUser(user);
         loadUsers();
 
-        List<Reservation> userReservations = bookingManager.getAll()
-                .stream()
+        bookingManager.getAll().stream()
                 .filter(res -> res.getUserId().equals(user.getId()))
-                .toList();
+                .forEach(bookingManager::deleteReservation);
 
-        userReservations.forEach(bookingManager::deleteReservation);
         loadReservation();
         JOptionPane.showMessageDialog(this, SUCCESSFULLY_DELETE_USER,
                 SUCCESSFULLY_DELETE_USER_TITLE, JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /** Deletes the selected reservation. */
     private void deleteReservationLogic() {
-        Reservation deletedReservation = reservationJList.getSelectedValue();
-        if (deletedReservation == null) {
+        Reservation reservation = reservationJList.getSelectedValue();
+        if (reservation == null) {
             JOptionPane.showMessageDialog(this, RESERVATION_SELECT,
                     RESERVATION_EMPTY, JOptionPane.ERROR_MESSAGE);
-
             return;
         }
 
-        bookingManager.deleteReservation(deletedReservation);
+        bookingManager.deleteReservation(reservation);
         JOptionPane.showMessageDialog(this, RESERVATION_DELETED,
                 DELETED_RESERVATION, JOptionPane.INFORMATION_MESSAGE);
         loadReservation();
     }
 
+    /** Handles deletion of room types, rooms of that type, and related reservations. */
     private void deleteRoomTypeLogic() {
         RoomType deletedRoomType = deleteRoomType();
         loadRoomTypes();
@@ -238,12 +253,12 @@ public class AdminMenuPanel extends AbstractsUIElement {
         loadReservation();
     }
 
+    /** Deletes the selected room and all related reservations. */
     private void deleteRoomLogic() {
         Room room = roomJList.getSelectedValue();
         if (room == null) {
             JOptionPane.showMessageDialog(this, ROOM_NOT_CHOOSE,
                     NO_ROOM_SELECTED_TITLE, JOptionPane.ERROR_MESSAGE);
-
             return;
         }
 
@@ -256,35 +271,38 @@ public class AdminMenuPanel extends AbstractsUIElement {
                 DELETED_RESERVATION, JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /** Deletes all reservations associated with a specific room. */
     private void deleteReservationByRoom(Room room) {
         List<Reservation> reservations = bookingManager.getAll()
                 .stream()
-                .filter(reservation -> reservation.getRoomId().equals(room.getId()))
+                .filter(res -> res.getRoomId().equals(room.getId()))
                 .toList();
 
         if (reservations.isEmpty()) {
             JOptionPane.showMessageDialog(this, EMPTY_RESERVATION_LIST,
                     EMPTY_RESERVATION_LIST_TITLE, JOptionPane.ERROR_MESSAGE);
-
             return;
         }
 
         reservations.forEach(bookingManager::deleteReservation);
     }
 
+    /** Deletes the selected room type. */
     private RoomType deleteRoomType() {
         RoomType roomType = roomTypeJList.getSelectedValue();
         if (roomType == null) {
             JOptionPane.showMessageDialog(this, SELECT_ROOM_TYPE,
                     NOT_SELECTED_ROOM_TYPE, JOptionPane.ERROR_MESSAGE);
-
             throw new RuntimeException(SELECT_ROOM_TYPE);
         }
         roomTypeManager.deleteRoomType(roomType);
-
         return roomType;
     }
 
+    /**
+     * Deletes all rooms belonging to the specified room type.
+     * @return list of deleted rooms for cascading cleanup
+     */
     private List<Room> deleteRooms(RoomType roomType) {
         List<Room> roomList = roomManager.getAll().stream()
                 .filter(room -> room.getRoomTypeId().equals(roomType.getId()))
@@ -293,23 +311,16 @@ public class AdminMenuPanel extends AbstractsUIElement {
         if (roomList.isEmpty()) {
             JOptionPane.showMessageDialog(this, EMPTY_ROOM_LIST,
                     EMPTY_ROOM_LIST_TITLE, JOptionPane.ERROR_MESSAGE);
-
             throw new RuntimeException(EMPTY_ROOM_LIST);
         }
 
-        for (Room room : roomList) {
-            roomManager.deleteRoom(room);
-        }
-
+        roomList.forEach(roomManager::deleteRoom);
         return roomList;
     }
 
+    /** Builds and configures the modal dialog for creating new rooms. */
     private void createRoomDialog() {
-        roomDialog = new JDialog(
-                parentWindow,
-                ROOM_DIALOG_TITLE,
-                Dialog.ModalityType.APPLICATION_MODAL);
-
+        roomDialog = new JDialog(parentWindow, ROOM_DIALOG_TITLE, Dialog.ModalityType.APPLICATION_MODAL);
         roomDialog.setLayout(new GridLayout(4, 2, 10, 10));
         roomDialog.setSize(DIALOG_PANEL_SIZE, DIALOG_PANEL_SIZE);
         roomDialog.setLocationRelativeTo(parentWindow);
@@ -333,17 +344,18 @@ public class AdminMenuPanel extends AbstractsUIElement {
         });
         roomDialog.add(createRoomButton);
 
-        JButton closeRoomDialogButton = new JButton(CANCEL_ROOM_DIALOG);
-        closeRoomDialogButton.addActionListener(e -> roomDialog.dispose());
-        roomDialog.add(closeRoomDialogButton);
+        JButton closeButton = new JButton(CANCEL_ROOM_DIALOG);
+        closeButton.addActionListener(e -> roomDialog.dispose());
+        roomDialog.add(closeButton);
     }
 
+    /** Creates a new room and handles validation. */
     private void createRoom(JTextField pricePerNight, JTextField cancelFee) {
         try {
             RoomType roomType = (RoomType) roomTypeJComboBox.getSelectedItem();
-            double roomPrice = Double.parseDouble(pricePerNight.getText());
-            double roomFee = Double.parseDouble(cancelFee.getText());
-            roomManager.createNewRoom(roomType, roomPrice, roomFee);
+            double price = Double.parseDouble(pricePerNight.getText());
+            double fee = Double.parseDouble(cancelFee.getText());
+            roomManager.createNewRoom(roomType, price, fee);
 
             JOptionPane.showMessageDialog(this, CREATED_ROOM,
                     NEW_ROOM_ADDED_TITLE, JOptionPane.INFORMATION_MESSAGE);
@@ -353,12 +365,13 @@ public class AdminMenuPanel extends AbstractsUIElement {
         }
     }
 
+    /** Loads all room types into the combo box for room creation. */
     private void loadRoomTypesToComboBox() {
         roomTypeJComboBox.removeAllItems();
-        roomTypeManager.getAll()
-                .forEach(roomTypeJComboBox::addItem);
+        roomTypeManager.getAll().forEach(roomTypeJComboBox::addItem);
     }
 
+    /** Creates a new room type based on dialog input. */
     private void createRoomType(JTextField nameField, JTextField amenitiesField, JSpinner occupancySpinner) {
         String name = nameField.getText();
         String amenities = amenitiesField.getText();
@@ -367,7 +380,6 @@ public class AdminMenuPanel extends AbstractsUIElement {
         if ((name.isEmpty() || name.isBlank()) || (amenities.isEmpty() || amenities.isBlank())) {
             JOptionPane.showMessageDialog(this, EMPTY_FIELD_FOR_ROOM_TYPE,
                     EMPTY_FIELD_ROOM_TYPE_TITLE, JOptionPane.ERROR_MESSAGE);
-
             return;
         }
 
@@ -377,12 +389,9 @@ public class AdminMenuPanel extends AbstractsUIElement {
         loadRoomTypes();
     }
 
+    /** Builds and configures the modal dialog for room type creation. */
     private void createRoomTypeDialog() {
-        roomTypeDialog = new JDialog(
-                parentWindow,
-                ROOM_TYPE_DIALOG_TITLE,
-                Dialog.ModalityType.APPLICATION_MODAL);
-
+        roomTypeDialog = new JDialog(parentWindow, ROOM_TYPE_DIALOG_TITLE, Dialog.ModalityType.APPLICATION_MODAL);
         roomTypeDialog.setLayout(new GridLayout(4, 4, 10, 10));
         roomTypeDialog.setSize(DIALOG_PANEL_SIZE, DIALOG_PANEL_SIZE);
         roomTypeDialog.setLocationRelativeTo(parentWindow);
@@ -391,12 +400,10 @@ public class AdminMenuPanel extends AbstractsUIElement {
         JTextField nameField = new JTextField();
         roomTypeDialog.add(nameField);
 
-        // Amenities
         roomTypeDialog.add(new JLabel(ROOM_TYPE_AMENITIES));
         JTextField amenitiesField = new JTextField();
         roomTypeDialog.add(amenitiesField);
 
-        // Maximum Occupancy
         roomTypeDialog.add(new JLabel(ROOM_TYPE_OCCUPANCY));
         JSpinner occupancySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 50, 1));
         roomTypeDialog.add(occupancySpinner);
@@ -404,7 +411,6 @@ public class AdminMenuPanel extends AbstractsUIElement {
         roomTypeDialog.add(new JLabel());
         roomTypeDialog.add(new JLabel());
 
-        // Buttons
         JButton createButton = new JButton(ROOM_TYPE_CREATE);
         createButton.addActionListener(e -> createRoomType(nameField, amenitiesField, occupancySpinner));
         roomTypeDialog.add(createButton);

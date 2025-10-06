@@ -1,5 +1,9 @@
 package models.room;
 
+/**
+ * Concrete implementation of {@link RoomType}.
+ * Provides validation and safe modification of room type attributes.
+ */
 public class RoomTypeImpl implements RoomType {
     private final Integer id;
     private String name;
@@ -47,8 +51,7 @@ public class RoomTypeImpl implements RoomType {
 
     @Override
     public void changeMaximumOccupancy(int maximumOccupancy) {
-        maximumOccupancy = Math.max(maximumOccupancy, 1);
-        this.maximumOccupancy = maximumOccupancy;
+        this.maximumOccupancy = Math.max(maximumOccupancy, 1);
     }
 
     @Override
@@ -59,15 +62,12 @@ public class RoomTypeImpl implements RoomType {
     @Override
     public String textFormat() {
         return String.format("No:%d; Name:%s; Amenities:%s; Maximum Occupancy:%d;%n",
-                id,
-                name,
-                amenities,
-                maximumOccupancy);
+                id, name, amenities, maximumOccupancy);
     }
 
-    private void validateString(String input, String attributes) {
+    private void validateString(String input, String attribute) {
         if (input == null || input.isBlank()) {
-            throw new IllegalArgumentException("Invalid " + attributes);
+            throw new IllegalArgumentException("Invalid " + attribute);
         }
     }
 }

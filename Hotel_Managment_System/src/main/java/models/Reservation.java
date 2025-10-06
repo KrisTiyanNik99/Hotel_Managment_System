@@ -5,8 +5,11 @@ import func.Identifiable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Immutable representation of a reservation record.
+ * Each reservation is tied to a user, a room, and specific date range.
+ */
 public final class Reservation implements Identifiable {
-    // Тук всички полета са final с цел да направим обекта immutable и да го енкапсулираме напълно
     private final Integer id;
     private final int userId;
     private final int roomId;
@@ -21,22 +24,6 @@ public final class Reservation implements Identifiable {
         this.arrivalData = isValidDate(arrivalData);
         this.departureDate = isValidDate(departureDate);
         this.isCanceled = isCanceled;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Reservation to for %s to %s", arrivalData, departureDate);
-    }
-
-    @Override
-    public String textFormat() {
-        return String.format("No:%d; UserID:%d; RoomID:%d; Arrival Data:%s; Departure Data:%s; Is canceled:%s;%n",
-                id,
-                userId,
-                roomId,
-                formattedData(arrivalData),
-                formattedData(departureDate),
-                isCanceled);
     }
 
     @Override
@@ -64,22 +51,32 @@ public final class Reservation implements Identifiable {
         return isCanceled;
     }
 
+    /**
+     * Marks this reservation as canceled.
+     */
     public void cancelReservation() {
         isCanceled = true;
     }
 
-    // Отделяме тази проверка в собствен метод, защото в бъдеще може да добавяме още валидиращи проверки!
     private LocalDate isValidDate(LocalDate date) {
         if (date == null) {
             throw new IllegalArgumentException("Invalid date format!");
         }
-
         return date;
     }
 
     private String formattedData(LocalDate date) {
-        return date.format(
-                DateTimeFormatter.ofPattern("dd-MM-yyyy")
-        );
+        return date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Reservation from %s to %s", arrivalData, departureDate);
+    }
+
+    @Override
+    public String textFormat() {
+        return String.format("No:%d; UserID:%d; RoomID:%d; Arrival Data:%s; Departure Data:%s; Is canceled:%s;%n",
+                id, userId, roomId, formattedData(arrivalData), formattedData(departureDate), isCanceled);
     }
 }

@@ -5,9 +5,12 @@ import models.room.Room;
 import models.room.RoomImpl;
 import models.room.RoomType;
 import services.repos.RepoService;
-
 import java.util.List;
 
+/**
+ * Implementation of {@link RoomManager}.
+ * Manages creation, updates, and availability of rooms.
+ */
 public class RoomManagerImpl implements RoomManager {
     private final RepoService<Room> roomRepository;
 
@@ -22,15 +25,12 @@ public class RoomManagerImpl implements RoomManager {
 
     @Override
     public Room createNewRoom(RoomType roomType, double pricePerNight, double cancellationFee) {
+        // Newly created rooms start as AVAILABLE by default
         int roomNumber = roomRepository.generateNextId();
 
-        // При създаването на нова стая тя трябва да бъде AVAILABLE по подразбиране, докато някой не я наеме чрез метод
         roomRepository.createValue(
-                new RoomImpl(roomNumber,
-                        roomType.getId(),
-                        pricePerNight,
-                        cancellationFee,
-                        Status.AVAILABLE));
+                new RoomImpl(roomNumber, roomType.getId(), pricePerNight, cancellationFee, Status.AVAILABLE)
+        );
 
         return getById(roomNumber);
     }
@@ -53,14 +53,6 @@ public class RoomManagerImpl implements RoomManager {
     @Override
     public void markRoomAsBooked(Integer roomId) {
         markRoom(roomId, Status.BOOKED);
-    }
-
-    @Override
-    public List<Room> getAllAvailableRooms() {
-        return roomRepository.findAll()
-                .stream()
-                .filter(e -> e.getStatus().equals(Status.AVAILABLE))
-                .toList();
     }
 
     @Override

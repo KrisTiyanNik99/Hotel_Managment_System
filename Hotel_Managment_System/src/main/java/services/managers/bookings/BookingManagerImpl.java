@@ -4,10 +4,13 @@ import services.managers.rooms.RoomStatusService;
 import models.Reservation;
 import models.room.Room;
 import services.repos.RepoService;
-
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Implementation of {@link AdminBookingManager}.
+ * Manages the booking lifecycle and synchronizes reservation data with room status.
+ */
 public class BookingManagerImpl implements AdminBookingManager {
     private final RepoService<Reservation> bookingRepo;
     private final RoomStatusService roomManagerStatus;
@@ -19,20 +22,14 @@ public class BookingManagerImpl implements AdminBookingManager {
 
     @Override
     public Reservation bookRoom(Integer userId, Room room, LocalDate checkIn, LocalDate checkOut) {
-        /*
-        Подаването на стаята като аргумент гарантира, че номера който ще се запази във файла срещу съответната резервация
-         ще бъде винаги валиден и съществуващ. Отделно така предотвратяваме подаването на невалидни стойности!
-         */
+        // Passing the Room object guarantees valid room references and consistent booking data
         int reservationId = bookingRepo.generateNextId();
 
         bookingRepo.createValue(
-                new Reservation(reservationId,
-                        userId,
-                        room.getId(),
-                        checkIn,
-                        checkOut,
-                        false));
+                new Reservation(reservationId, userId, room.getId(), checkIn, checkOut, false)
+        );
 
+        // Update the room’s availability after successful booking
         roomManagerStatus.markRoomAsBooked(room.getId());
         return getReservationById(reservationId);
     }
@@ -43,6 +40,7 @@ public class BookingManagerImpl implements AdminBookingManager {
         canceledReservation.cancelReservation();
         bookingRepo.updateValue(canceledReservation);
 
+        // Once canceled, mark the room as available again
         roomManagerStatus.markRoomAsAvailable(canceledReservation.getRoomId());
         return getReservationById(canceledReservation.getId());
     }
@@ -53,14 +51,6 @@ public class BookingManagerImpl implements AdminBookingManager {
                 .stream()
                 .filter(e -> userId.equals(e.getUserId()))
                 .filter(e -> !e.isCanceled())
-                .toList();
-    }
-
-    @Override
-    public List<Reservation> getReservationByRoomNumber(Integer roomNumber) {
-        return bookingRepo.findAll()
-                .stream()
-                .filter(res -> res.getRoomId().equals(roomNumber))
                 .toList();
     }
 

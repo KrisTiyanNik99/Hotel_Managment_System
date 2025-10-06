@@ -2,6 +2,10 @@ package models.room;
 
 import models.enums.Status;
 
+/**
+ * Concrete implementation of {@link Room}.
+ * Ensures data validation and encapsulation for room attributes.
+ */
 public class RoomImpl implements Room {
     private final Integer roomNumber;
     private Integer roomTypeId;
@@ -39,25 +43,25 @@ public class RoomImpl implements Room {
 
     @Override
     public void setRoomTypeId(int roomTypeId) {
-        roomTypeId = Math.max(roomTypeId, 1);
-        this.roomTypeId = roomTypeId;
+        // Room type ID must be a positive integer
+        this.roomTypeId = Math.max(roomTypeId, 1);
     }
 
     @Override
     public void setPricePerNight(double pricePerNight) {
-        pricePerNight = Math.max(pricePerNight, 9.99);
-        this.pricePerNight = pricePerNight;
+        // Enforce minimum valid price
+        this.pricePerNight = Math.max(pricePerNight, 9.99);
     }
 
     @Override
     public void setCancellationFee(double cancellationFee) {
-        cancellationFee = Math.max(cancellationFee, 9.99);
-        this.cancellationFee = cancellationFee;
+        // Enforce minimum valid cancellation fee
+        this.cancellationFee = Math.max(cancellationFee, 9.99);
     }
 
     @Override
     public void setStatus(Status tStatus) {
-        status = tStatus;
+        this.status = tStatus;
     }
 
     @Override
@@ -73,10 +77,6 @@ public class RoomImpl implements Room {
     @Override
     public String textFormat() {
         return String.format("No:%d; TypeID:%d; Price per night:%.2f; Cancellation Fee:%.2f; Room Status:%s;%n",
-                roomNumber,
-                roomTypeId,
-                pricePerNight,
-                cancellationFee,
-                status);
+                roomNumber, roomTypeId, pricePerNight, cancellationFee, status);
     }
 }
