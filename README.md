@@ -1,5 +1,5 @@
 # Project Overview
-This Java Swing-based hotel management application provides functionalities for managing users, rooms, room types, and reservations. The system uses JSON-like repositories for data persistence and emphasizes modular, object-oriented design to facilitate extensibility and maintainability. Core functionalities include creating, updating, deleting, and viewing users, rooms, room types, and reservations. The UI is managed through a Mediator pattern implemented by the UIController and Window interfaces, ensuring centralized communication between different UI components.
+This Java Swing-based hotel management application from scratch which provides functionalities for managing users, rooms, room types, and reservations. The system uses JSON-like repositories for data persistence and emphasizes modular, object-oriented design to facilitate extensibility and maintainability. Core functionalities include creating, updating, deleting, and viewing users, rooms, room types, and reservations. The UI is managed through a Mediator pattern implemented by the UIController and Window interfaces, ensuring centralized communication between different UI components.
 
 The system also demonstrates the use of the Factory and Mediator patterns in repository classes for generating unique IDs and creating new entities dynamically.
 
@@ -83,7 +83,7 @@ public interface ObjectProvider<T> {
     T getObjectFromData(String[] data);
 }
 ```
-* For example how this factory pattern create one intance be extracting data from file:
+* For example how this factory pattern create one intance by extracting data from file:
 ```java
     protected void persistToFile() {
         try (PrintWriter writer = new PrintWriter(Configurations.FILE_ROOT_PATH + repositoryFileName)) {
