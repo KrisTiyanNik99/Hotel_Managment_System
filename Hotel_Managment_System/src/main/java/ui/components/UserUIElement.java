@@ -13,7 +13,6 @@ public abstract class UserUIElement extends AbstractsUIElement {
     private final JButton confirmReservationButton;
     private final JButton refuseReservationButton;
 
-    protected final Window parentWindow;
     protected final JLabel usernameReservationLabel;
     protected final JLabel roomReservationLabel;
     protected final JLabel fromDateReservationLabel;
@@ -25,7 +24,7 @@ public abstract class UserUIElement extends AbstractsUIElement {
         super(controller);
 
         setBackground(Color.DARK_GRAY);
-        parentWindow = SwingUtilities.getWindowAncestor(this);
+
 
         usernameReservationLabel = new JLabel(RESERVATION_USER_TITLE_DIALOG);
         roomReservationLabel = new JLabel(RESERVED_ROOM_NUMBER_TITLE_DIALOG);
@@ -34,23 +33,6 @@ public abstract class UserUIElement extends AbstractsUIElement {
 
         confirmReservationButton = new JButton(CONFIRM_RESERVATION);
         refuseReservationButton = new JButton(CANCEL_RESERVATION);
-    }
-
-    protected void setMenuLabelSettings(JLabel label, int x_scale, int y_scale) {
-        label.setBounds(x_scale, y_scale, LABEL_WIDTH + LABEL_WIDTH, LABEL_HEIGHT);
-        label.setForeground(Color.WHITE);
-        label.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE));
-        label.setOpaque(false);
-        add(label);
-    }
-
-    protected void setMenuButtonSettings(JButton button, int x_scale, int y_scale) {
-        button.setBounds(x_scale,y_scale, LABEL_WIDTH, LABEL_HEIGHT);
-        button.setBackground(Color.CYAN);
-        button.setForeground(Color.BLACK);
-        button.setFont(new Font(ARIEL_STYLE, Font.BOLD, FONT_SIZE));
-        button.setFocusPainted(false);
-        add(button);
     }
 
     protected void initReservationDialog() {

@@ -11,5 +11,4 @@ public interface BookingManager {
     Reservation cancelReservation(Integer reservationId);
     Reservation getReservationById(Integer reservationId);
     List<Reservation> getAllUserBookingHistory(Integer userId);
-    List<Reservation> getCanceledReservations(Integer userId);
 }

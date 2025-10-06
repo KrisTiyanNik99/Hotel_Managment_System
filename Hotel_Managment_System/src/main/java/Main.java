@@ -13,7 +13,6 @@ public class Main {
         ap.registerComponents(UIElement.ADMIN);
 
         ap.showLoginPanel();
-        //ap.showMainPanel();
         mw.setVisible(true);
     }
 }

@@ -11,7 +11,7 @@ import services.managers.room_types.AdminRoomTypeManager;
 import services.managers.room_types.RoomTypeManagerImpl;
 import services.managers.rooms.RoomManager;
 import services.managers.rooms.RoomManagerImpl;
-import services.managers.users.UserManager;
+import services.managers.users.AdminUserManager;
 import services.managers.users.UserManagerImpl;
 import services.repos.*;
 import ui.Window;
@@ -34,7 +34,7 @@ public class AppController implements UIController {
     private AdminBookingManager bookingManager;
     private AdminRoomTypeManager roomTypeManager;
     private RoomManager roomManager;
-    private UserManager userManager;
+    private AdminUserManager userManager;
 
     public AppController(Window mainWindow) {
         this.mainWindow = mainWindow;
@@ -55,7 +55,7 @@ public class AppController implements UIController {
                     roomManager, userManager, this);
         } else if (component.equals(UIElement.ADMIN)) {
             uiElement = new AdminMenuPanel(this, roomTypeManager,
-                    roomManager, bookingManager);
+                    roomManager, bookingManager, userManager);
         } else {
             throw new IllegalArgumentException();
         }
@@ -89,6 +89,15 @@ public class AppController implements UIController {
 
     @Override
     public void showAdminPanel() {
+        AbstractsUIElement adminPanel = new AdminMenuPanel(
+                this,
+                roomTypeManager,
+                roomManager,
+                bookingManager,
+                userManager
+        );
+
+        mainWindow.replacePanel(UIElement.ADMIN.getTypeAsString(), adminPanel);
         mainWindow.showPanel(UIElement.ADMIN.getTypeAsString());
     }
 

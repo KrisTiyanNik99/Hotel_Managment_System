@@ -4,14 +4,11 @@ import models.user.User;
 import models.user.UserImpl;
 import services.repos.RepoService;
 
+import java.util.List;
 import java.util.Objects;
 
-public class UserManagerImpl implements UserManager {
-    private final RepoService<User> userRepoService;
-
-    public UserManagerImpl(RepoService<User> userRepoService) {
-        this.userRepoService = userRepoService;
-    }
+public record UserManagerImpl(
+        RepoService<User> userRepoService) implements AdminUserManager {
 
     @Override
     public User register(String username, String password) {
@@ -25,6 +22,16 @@ public class UserManagerImpl implements UserManager {
         userRepoService.createValue(currentUser);
 
         return userRepoService.findById(userId);
+    }
+
+    @Override
+    public void deleteUser(User user) {
+        userRepoService.deleteById(user.getId());
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userRepoService.findAll();
     }
 
     @Override

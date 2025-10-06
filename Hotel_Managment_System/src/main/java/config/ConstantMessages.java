@@ -1,7 +1,7 @@
 package config;
 
 public class ConstantMessages {
-    public static final String AVAILABLE_TYPE_ROOM_TITLE = "List of all available room types.";
+    public static final String AVAILABLE_TYPE_ROOM_TITLE = "List of all available room types";
     public static final String AVAILABLE_ROOM_TITLE = "List of all available room.";
     public static final String APPLICATION_TITLE = "Hotel Manager System";
     public static final String EMPTY_FIELDS = "Error - empty field/s.";
@@ -48,5 +48,21 @@ public class ConstantMessages {
     public static final String EMPTY_ROOM_LIST_TITLE = "Empty room list";
     public static final String EMPTY_ROOM_LIST = "The list with rooms is empty!";
     public static final String ROOM_DIALOG_TITLE = "Create Room dialog";
-    public static final String EMPTY_ROOM_TYPE_VALUE = "Empty";
+    public static final String ROOM_PRICE = "Price per night";
+    public static final String ROOM_CANCEL_FEE = "Fee for cancel";
+    public static final String PRICE_FORMAT = "Price format is incorrect!";
+    public static final String PRICE_FORMAT_TITLE = "Incorrect format";
+    public static final String CREATED_ROOM = "The room is successfully create";
+    public static final String NEW_ROOM_ADDED_TITLE = "Successfully add";
+    public static final String ROOM_NOT_CHOOSE = "Please select a room";
+    public static final String EMPTY_RESERVATION_LIST_TITLE = "Empty room list";
+    public static final String EMPTY_RESERVATION_LIST = "The list with reservations is empty!";
+    public static final String RESERVATION_EMPTY = "Reservation is not found";
+    public static final String RESERVATION_SELECT = "Select reservation first!";
+    public static final String DELETED_RESERVATION = "Successfully delete";
+    public static final String RESERVATION_DELETED = "Reservation is deleted!";
+    public static final String EMPTY_USER = "Empty user";
+    public static final String SELECT_USER = "Please select user first";
+    public static final String SUCCESSFULLY_DELETE_USER_TITLE = "Successfully delete";
+    public static final String SUCCESSFULLY_DELETE_USER = "The user is delete with his booking history";
 }

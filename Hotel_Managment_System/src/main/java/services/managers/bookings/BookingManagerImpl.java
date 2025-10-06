@@ -65,12 +65,8 @@ public class BookingManagerImpl implements AdminBookingManager {
     }
 
     @Override
-    public List<Reservation> getCanceledReservations(Integer userId) {
-        return bookingRepo.findAll()
-                .stream()
-                .filter(e -> userId.equals(e.getUserId()))
-                .filter(Reservation::isCanceled)
-                .toList();
+    public List<Reservation> getAll() {
+        return bookingRepo.findAll();
     }
 
     @Override

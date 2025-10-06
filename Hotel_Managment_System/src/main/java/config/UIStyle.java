@@ -32,7 +32,13 @@ public class UIStyle {
     public static final String ADD_ROOM = "Add room";
     public static final String DELETE_ROOM = "Delete room";
     public static final String ROOM_TYPE_TITLE = "Room Type";
-
+    public static final String CANCEL_ROOM_DIALOG = "Cancel The Room Dialog";
+    public static final String CREATE_ROOM_DIALOG = "Create a new Room";
+    public static final String ROOM_LIST = "List of all rooms";
+    public static final String RESERVATION_LIST = "List of all reservation";
+    public static final String DELETE_RESERVATION = "Delete reservation";
+    public static final String USER_LIST = "List of all users";
+    public static final String DELETE_USER = "Delete user";
 
     // Elements size and styles
     public static final int GAP = 8;
