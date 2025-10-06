@@ -83,7 +83,7 @@ public interface ObjectProvider<T> {
     T getObjectFromData(String[] data);
 }
 ```
-* For example how this factory pattern create one intance by extracting data from file:
+* For example how this factory pattern create one instance by extracting data from file:
 ```java
     protected void persistToFile() {
         try (PrintWriter writer = new PrintWriter(Configurations.FILE_ROOT_PATH + repositoryFileName)) {
